@@ -48,7 +48,7 @@ export default function Footer() {
     ];
 
     return (
-        <footer className="bg-[#222222] text-white">
+        <footer className="bg-[#5D84C4] text-white">
             {/* Main footer content */}
             <div className="max-w-7xl mx-auto px-4 py-12">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -59,8 +59,8 @@ export default function Footer() {
                                 <span className="text-white font-bold text-lg">P</span>
                             </div>
                             <div className="flex flex-col">
-                                <span className="text-xl font-bold text-[#D9D3A7]">PATRONATO</span>
-                                <span className="text-sm text-gray-300">Cumbres de Santa Fe</span>
+                                <span className="text-xl font-bold text-black">PATRONATO</span>
+                                <span className="text-sm text-black">Cumbres de Santa Fe</span>
                             </div>
                         </div>
                         
