@@ -114,7 +114,7 @@ export default function NavBar() {
             </div>
 
             {/* Mobile Menu */}
-            <div className={`lg:hidden transition-all duration-300 overflow-hidden ${
+            <div className={`lg:hidden transition-all duration-300 overflow-hidden bg-[#D9D3A7] ${
                 isMobileMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
             }`}>
                 <div className="container mx-auto px-4 py-4 border-t border-yellow-600">
