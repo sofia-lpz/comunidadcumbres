@@ -1,6 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import { MapPin, Menu, X, Phone } from 'lucide-react';
+import LogoComponent from '../ui/LogoComponent';
 
 export default function NavBar() {
     const [isScrolled, setIsScrolled] = useState(false);
@@ -30,14 +31,14 @@ export default function NavBar() {
 
     return (
         <nav className={`fixed top-0 left-0 right-0 z-50 bg-[#D9D3A7] shadow-lg transition-all duration-300 ${
-            isScrolled ? 'py-2' : 'py-4'  
+            isScrolled ? 'h-20' : 'h-28'  
         }`}>
             {/* Top Bar - Se oculta en scroll */}
             <div className={`transition-all duration-300 overflow-hidden ${
-                isScrolled ? 'max-h-0 opacity-0' : 'max-h-20 opacity-100'
+                isScrolled ? 'max-h-0 opacity-0' : 'max-h-12 opacity-100'
             }`}>
                 <div className="container mx-auto px-4">
-                    <div className="flex justify-between items-center py-2 text-sm">
+                    <div className="flex justify-between items-center py-2 text-sm h-12">
                         <div className="text-gray-800">
                             Transformando vidas en nuestra comunidad
                         </div>
@@ -59,27 +60,25 @@ export default function NavBar() {
 
             {/* Main Navigation */}
             <div className="container mx-auto px-4">
-                <div className="flex justify-between items-center">
+                <div className={`flex justify-between items-center ${
+                    isScrolled ? 'h-20' : 'h-16'
+                }`}>
                     {/* Logo */}
                     <div className="flex items-center">
                         <div className={`transition-all duration-300 ${
-                            isScrolled ? 'scale-75' : 'scale-100'
+                            isScrolled ? 'scale-90' : 'scale-100'
                         }`}>
-                            <div className="flex items-center space-x-2">
-                                <div className="w-12 h-12 bg-gradient-to-r from-yellow-500 to-yellow-600 rounded-full flex items-center justify-center">
-                                    <span className="text-white font-bold text-lg">P</span>
-                                </div>
-                                <div className="flex flex-col">
-                                    <span className="text-xl font-bold text-gray-800">PATRONATO</span>
-                                    <span className="text-sm text-gray-800">Cumbres</span>
-                                </div>
-                            </div>
+                            <LogoComponent 
+                                variant="yellow" 
+                                size={48} 
+                                showText={true}
+                            />
                         </div>
                     </div>
 
                     {/* Desktop Menu */}
                     <div className={`hidden lg:flex items-center space-x-8 transition-all duration-300 ${
-                        isScrolled ? 'opacity-0 max-w-0 overflow-hidden' : 'opacity-100 max-w-none'
+                        isScrolled ? 'opacity-100' : 'opacity-90'
                     }`}>
                         {mainMenuItems.map((item, index) => (
                             <a
