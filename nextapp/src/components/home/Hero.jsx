@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 export default function Hero({ title, subtitle, ctaButtons }) {
   return (
-    <div className="relative bg-[#D9D3A7] py-20 md:py-32">
+    <div className="relative bg-[#D9D3A7] py-12 md:py-20">
       {/* Background design elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -right-40 -top-40 w-80 h-80 bg-[#B3A369] opacity-20 rounded-full"></div>
