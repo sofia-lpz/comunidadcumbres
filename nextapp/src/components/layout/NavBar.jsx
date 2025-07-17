@@ -121,38 +121,34 @@ export default function NavBar() {
         </div>
       </div>
 
-{/* Mobile Menu */}
-<div className={`lg:hidden transition-all duration-300 overflow-hidden bg-[#D9D3A7] ${
-  isMobileMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
-}`}>
-  <div className="container mx-auto px-4 py-4 border-t border-yellow-600">
-    <div className="flex flex-col space-y-4">
-      {mainMenuItems.map((item, index) => (
-        <a
-          key={index}
-          href={item.href}
-          className="font-medium py-2 text-gray-800 hover:text-blue-600 transition-colors"
-          onClick={() => setIsMobileMenuOpen(false)}
-        >
-          {item.name}
-        </a>
-      ))}
-      <hr className="my-2 border-yellow-600" />
-      <div className="flex flex-col space-y-2">
-        {topMenuItems.map((item, index) => (
-          <a
-            key={item.name}
-            href={item.href}
-            className="flex items-center space-x-2 py-2 text-gray-600 hover:text-blue-600 transition-colors"
-          >
-            <item.icon className="w-4 h-4" />
-            <span>{item.name}</span>
-          </a>
-        ))}
-      </div>
-    </div>
-  </div>
-</div>
+      {/* Mobile Menu */}
+      <div className={`lg:hidden transition-all duration-300 overflow-hidden bg-[#D9D3A7] ${
+        isMobileMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+      }`}>
+        <div className="container mx-auto px-4 py-4 border-t border-yellow-600">
+          <div className="flex flex-col space-y-4">
+            {mainMenuItems.map((item, index) => (
+              <a
+                key={index}
+                href={item.href}
+                className="font-medium py-2 text-gray-800 hover:text-blue-600 transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                {item.name}
+              </a>
+            ))}
+            <hr className="my-2 border-yellow-600" />
+            <div className="flex flex-col space-y-2">
+              {topMenuItems.map((item, index) => (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  className="flex items-center space-x-2 py-2 text-gray-600 hover:text-blue-600 transition-colors"
+                >
+                  <item.icon className="w-4 h-4" />
+                  <span>{item.name}</span>
+                </a>
+              ))}
             </div>
           </div>
         </div>
