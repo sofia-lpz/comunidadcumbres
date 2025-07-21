@@ -7,7 +7,7 @@ export default function Home() {
     <div className="min-h-screen">
       {/* Hero Section */}
       <Hero 
-        title="Patronato Cumbres de Santa Fe" 
+        title="Patronato de Ayuda Cumbres de Santa Fe A.C." 
         subtitle="Transformando vidas a través del apoyo comunitario"
         ctaButtons={[
           { text: "Quiero ayudar", href: "/como-aportar", primary: true },

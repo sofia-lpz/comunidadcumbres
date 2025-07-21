@@ -11,11 +11,11 @@ export default function Hero({ title, subtitle, ctaButtons }) {
       </div>
       
       <div className="container mx-auto px-4 relative z-10">
-        <div className="max-w-3xl mx-auto text-center">
+        <div className="max-w-3xl text-left">
           <h1 className="text-4xl md:text-5xl font-bold mb-6 text-[#222222]">{title}</h1>
           <p className="text-xl mb-10 text-gray-700">{subtitle}</p>
-          
-          <div className="flex flex-wrap gap-4 justify-center">
+
+          <div className="flex flex-col sm:flex-row gap-4">
             {ctaButtons.map((button, index) => (
               <Link 
                 key={index}
