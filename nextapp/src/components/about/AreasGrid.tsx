@@ -1,6 +1,6 @@
 import AreaCard from "./AreaCard";
 
-export default function AreasGrid() {
+const AreasGrid = () => {
   const areas = [
     {
       id: 1,
@@ -35,4 +35,6 @@ export default function AreasGrid() {
       </div>
     </section>
   );
-}
+};
+
+export default AreasGrid;

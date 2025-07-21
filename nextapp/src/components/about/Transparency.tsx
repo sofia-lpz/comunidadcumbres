@@ -1,4 +1,4 @@
-export default function Transparency() {
+const Transparency = () => {
   return (
     <section className="py-12 text-center">
       <h2 className="text-3xl font-bold mb-6">Transparencia</h2>
@@ -7,7 +7,7 @@ export default function Transparency() {
         acciones.
       </p>
       <a
-        href="/docs/reporte-anual.pdf"
+        href="/docs/reporte-anual-2023.pdf"
         target="_blank"
         rel="noopener noreferrer"
         className="inline-block bg-yellow-500 text-white px-6 py-3 rounded hover:bg-yellow-600 transition"
@@ -16,4 +16,6 @@ export default function Transparency() {
       </a>
     </section>
   );
-}
+};
+
+export default Transparency;
