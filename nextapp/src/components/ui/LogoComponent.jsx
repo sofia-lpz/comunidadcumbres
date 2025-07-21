@@ -8,8 +8,8 @@ const LogoComponent = ({
   showText = true 
 }) => {
   const logoSrc = variant === 'yellow' 
-    ? '/LOGO_COMUNIDAD.png' 
-    : '/LOGO.png';
+    ? '/LOGO.png' 
+    : '/LOGO_COMUNIDAD.png';
   
   return (
     <div className={`flex items-center space-x-3 ${className}`}>
