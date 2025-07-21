@@ -19,8 +19,8 @@ export default function ActiveCampaigns() {
     },
     {
       id: 2,
-      title: "Clases de Inglés",
-      description: "Clases gratuitas de inglés para empleados y habitantes de San Mateo",
+      title: "Clases de Inglés y Cómputación",
+      description: "Clases gratuitas de inglés para empleados y colaboradores.",
       image: "/images/ingles.jpg",
       status: "active",
       href: "/programas/clases-ingles",
@@ -28,7 +28,7 @@ export default function ActiveCampaigns() {
     {
       id: 3,
       title: "Exámenes de la Vista",
-      description: "Evaluaciones y entrega de anteojos para empleados",
+      description: "Evaluaciones y entrega de anteojos para empleados.",
       image: "/images/vista.jpg",
       status: "upcoming",
       href: "/programas/examenes-vista",
