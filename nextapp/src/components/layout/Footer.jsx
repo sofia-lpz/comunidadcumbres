@@ -26,6 +26,7 @@ export default function Footer() {
     { name: "Acerca de nosotros", href: "/acerca-de-nosotros" },
     { name: "Nuestro trabajo", href: "/proyectos" },
     { name: "Programas", href: "/programas" },
+    { name: "Informe anual", href: "/docs/reporte-anual-2023.pdf" },
     { name: "Contacto", href: "/contacto" },
   ];
 
@@ -42,8 +43,6 @@ export default function Footer() {
     { name: "Preguntas frecuentes", href: "/faqs" },
     { name: "Términos y condiciones", href: "/terminos" },
   ];
-
-  const socialLinks = [{ name: "Instagram", href: "#", icon: Instagram }];
 
   return (
     <footer className="bg-[#5D84C4] text-white">
@@ -62,8 +61,9 @@ export default function Footer() {
                 className="w-12 h-12 object-contain"
               />
               <div className="flex flex-col">
-                <span className="text-xl font-bold text-black">PATRONATO</span>
-                <span className="text-sm text-black">Cumbres de Santa Fe</span>
+                <span className="text-xl font-bold text-black">
+                  COMUNIDAD CUMBRES
+                </span>
               </div>
             </Link>
 
@@ -77,13 +77,14 @@ export default function Footer() {
               <div className="flex items-center space-x-3">
                 <MapPin className="w-4 h-4 text-[#CDA52A] flex-shrink-0" />
                 <span className="text-sm text-gray-300">
-                  Cumbres de Santa Fe, Ciudad de México
+                  Avenida de los Poetas 100, Cumbres de Santa Fe, Ciudad de
+                  México.
                 </span>
               </div>
               <div className="flex items-center space-x-3">
                 <Phone className="w-4 h-4 text-[#CDA52A] flex-shrink-0" />
                 <span className="text-sm text-gray-300">
-                  +52 (55) 1234-5678
+                  +52 (55) 6912 2028
                 </span>
               </div>
               <div className="flex items-center space-x-3">
@@ -97,6 +98,17 @@ export default function Footer() {
                 <span className="text-sm text-gray-300">
                   Lun - Vie: 9:00 AM - 5:00 PM
                 </span>
+              </div>
+              <div className="flex items-center space-x-3">
+                <Instagram className="w-4 h-4 text-[#CDA52A] flex-shrink-0" />
+                <a
+                  href="https://www.instagram.com/comunidad_cumbres"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-gray-300 hover:underline"
+                >
+                  @comunidad_cumbres
+                </a>
               </div>
             </div>
           </div>
@@ -186,23 +198,6 @@ export default function Footer() {
               >
                 Términos de Uso
               </a>
-            </div>
-
-            {/* Social Media */}
-            <div className="flex space-x-4">
-              {socialLinks.map((social) => {
-                const Icon = social.icon;
-                return (
-                  <a
-                    key={social.name}
-                    href={social.href}
-                    className="w-8 h-8 bg-gray-700 rounded-full flex items-center justify-center hover:bg-[#CDA52A] transition-colors duration-200"
-                    aria-label={social.name}
-                  >
-                    <Icon className="w-4 h-4 text-white" />
-                  </a>
-                );
-              })}
             </div>
           </div>
         </div>
