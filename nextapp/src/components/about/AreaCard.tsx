@@ -1,4 +1,14 @@
-export default function AreaCard({ area }) {
+type Area = {
+  title: string;
+  description: string;
+  image?: string;
+};
+
+type Props = {
+  area: Area;
+};
+
+const AreaCard = ({ area }: Props) => {
   return (
     <div className="border p-4 rounded-lg shadow hover:shadow-md transition bg-white">
       <h3 className="text-xl font-semibold mb-2">{area.title}</h3>
@@ -12,4 +22,6 @@ export default function AreaCard({ area }) {
       )}
     </div>
   );
-}
+};
+
+export default AreaCard;
