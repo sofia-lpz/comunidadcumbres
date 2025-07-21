@@ -9,10 +9,10 @@ const AboutText = () => {
         <h3 className="text-2xl font-semibold mb-2">Historia y propósito</h3>
         <p className="text-gray-700">
           El Patronato de Ayuda Cumbres de Santa Fe A.C. es una iniciativa
-          social fondeada por vecinos del condominio, que tiene como objetivo
-          apoyar a empleados, personal de servicio y habitantes del pueblo
-          vecino San Mateo Tlaltenango mediante programas de bienestar,
-          educación y salud.
+          social fondeada por vecinos del condominio, cuyo objetivo principal es
+          apoyar a los empleados del condominio, colaboradores del hogar y
+          habitantes del ejido de San Mateo Tlaltenango mediante programas de
+          bienestar, educación y salud.
         </p>
       </div>
 
