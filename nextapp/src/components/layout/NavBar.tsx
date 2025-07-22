@@ -32,6 +32,7 @@ export default function NavBar(): JSX.Element {
     { name: "Inicio", href: "/" },
     { name: "Acerca de nosotros", href: "/acerca-de-nosotros" },
     { name: "Nuestro trabajo", href: "/proyectos" },
+    { name: "Blog", href: "/blog" },
     { name: "Contacto", href: "/contacto" },
   ];
 
