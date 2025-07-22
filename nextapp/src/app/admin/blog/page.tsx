@@ -7,7 +7,7 @@ interface BlogPost {
   id: string;
   title: string;
   content: string;
-  image_url?: string;
+  image_urls: string[];
   published: boolean;
   published_at?: string | null;
   created_at: string;

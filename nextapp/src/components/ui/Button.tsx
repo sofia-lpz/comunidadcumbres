@@ -13,7 +13,7 @@ interface LinkButtonProps extends BaseButtonProps {
 }
 
 interface RegularButtonProps extends BaseButtonProps {
-  onClick?: () => void;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   type?: 'button' | 'submit' | 'reset';
 }
 
