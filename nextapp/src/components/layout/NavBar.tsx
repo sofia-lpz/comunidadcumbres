@@ -1,10 +1,19 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, JSX } from "react";
 import { MapPin, Menu, X, Phone } from "lucide-react";
 import LogoComponent from "../ui/LogoComponent";
 import Link from "next/link";
 
-export default function NavBar() {
+interface MenuItem {
+  name: string;
+  href: string;
+}
+
+interface TopMenuItem extends MenuItem {
+  icon: React.ElementType;
+}
+
+export default function NavBar(): JSX.Element {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -19,13 +28,14 @@ export default function NavBar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const mainMenuItems = [
+  const mainMenuItems: MenuItem[] = [
+    { name: "Inicio", href: "/" },
     { name: "Acerca de nosotros", href: "/acerca-de-nosotros" },
     { name: "Nuestro trabajo", href: "/proyectos" },
     { name: "Contacto", href: "/contacto" },
   ];
 
-  const topMenuItems = [
+  const topMenuItems: TopMenuItem[] = [
     { icon: MapPin, href: "/ubicacion", name: "Ubicación" },
     { icon: Phone, href: "/contacto", name: "Contacto" },
   ];
@@ -48,16 +58,19 @@ export default function NavBar() {
               Transformando vidas en nuestra comunidad
             </div>
             <div className="flex items-center space-x-6">
-              {topMenuItems.map((item, index) => (
-                <a
-                  key={index}
-                  href={item.href}
-                  className="flex items-center space-x-1 text-gray-100 hover:text-[#D9D3A7] transition-colors"
-                >
-                  <item.icon className="w-4 h-4" />
-                  <span className="hidden sm:inline">{item.name}</span>
-                </a>
-              ))}
+              {topMenuItems.map((item, index) => {
+                const Icon = item.icon;
+                return (
+                  <a
+                    key={index}
+                    href={item.href}
+                    className="flex items-center space-x-1 text-gray-100 hover:text-[#D9D3A7] transition-colors"
+                  >
+                    <Icon className="w-4 h-4" />
+                    <span className="hidden sm:inline">{item.name}</span>
+                  </a>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -71,13 +84,15 @@ export default function NavBar() {
           }`}
         >
           {/* Logo */}
-          <Link href="/" className="flex items-center">
-            <div
-              className={`transition-all duration-300 ${
-                isScrolled ? "scale-90" : "scale-100"
-              }`}
-            >
-              <LogoComponent variant="white" size={48} showText={true} />
+          <Link href="/">
+            <div className="flex items-center">
+              <div
+                className={`transition-all duration-300 ${
+                  isScrolled ? "scale-90" : "scale-100"
+                }`}
+              >
+                <LogoComponent variant="white" size={48} showText={true} />
+              </div>
             </div>
           </Link>
 
@@ -88,13 +103,11 @@ export default function NavBar() {
             }`}
           >
             {mainMenuItems.map((item, index) => (
-              <a
-                key={index}
-                href={item.href}
-                className="font-medium text-white hover:text-[#D9D3A7] transition-colors whitespace-nowrap"
-              >
-                {item.name}
-              </a>
+              <Link key={index} href={item.href}>
+                <span className="font-medium text-white hover:text-[#D9D3A7] transition-colors whitespace-nowrap">
+                  {item.name}
+                </span>
+              </Link>
             ))}
           </div>
 
@@ -114,41 +127,50 @@ export default function NavBar() {
             </button>
 
             {/* Donate Button */}
-            <button className="bg-[#D9D3A7] hover:bg-[#CDA52A] text-gray-800 px-6 py-2 rounded-md font-semibold transition-colors">
+            <a
+              href="/donar"
+              className="bg-[#D9D3A7] hover:bg-[#CDA52A] text-gray-800 px-6 py-2 rounded-md font-semibold transition-colors"
+            >
               DONAR
-            </button>
+            </a>
           </div>
         </div>
       </div>
 
       {/* Mobile Menu */}
-      <div className={`lg:hidden transition-all duration-300 overflow-hidden bg-[#5D84C4] ${
-        isMobileMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
-      }`}>
+      <div
+        className={`lg:hidden transition-all duration-300 overflow-hidden bg-[#5D84C4] ${
+          isMobileMenuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+        }`}
+      >
         <div className="container mx-auto px-4 py-4 border-t border-white border-opacity-20">
           <div className="flex flex-col space-y-4">
             {mainMenuItems.map((item, index) => (
-              <a
+              <Link
                 key={index}
                 href={item.href}
-                className="font-medium py-2 text-white hover:text-[#D9D3A7] transition-colors"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                {item.name}
-              </a>
+                <span className="font-medium py-2 text-white hover:text-[#D9D3A7] transition-colors">
+                  {item.name}
+                </span>
+              </Link>
             ))}
             <hr className="my-2 border-white border-opacity-20" />
             <div className="flex flex-col space-y-2">
-              {topMenuItems.map((item, index) => (
-                <a
-                  key={item.name}
-                  href={item.href}
-                  className="flex items-center space-x-2 py-2 text-gray-200 hover:text-[#D9D3A7] transition-colors"
-                >
-                  <item.icon className="w-4 h-4" />
-                  <span>{item.name}</span>
-                </a>
-              ))}
+              {topMenuItems.map((item, index) => {
+                const Icon = item.icon;
+                return (
+                  <a
+                    key={index}
+                    href={item.href}
+                    className="flex items-center space-x-2 py-2 text-gray-200 hover:text-[#D9D3A7] transition-colors"
+                  >
+                    <Icon className="w-4 h-4" />
+                    <span>{item.name}</span>
+                  </a>
+                );
+              })}
             </div>
           </div>
         </div>
