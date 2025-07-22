@@ -8,19 +8,36 @@ import type { User } from '@supabase/supabase-js';
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<User | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
   const pathname = usePathname();
 
   useEffect(() => {
     // Verificar sesión actual
     const checkSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      setUser(session?.user || null);
-      setLoading(false);
+      try {
+        setLoading(true);
+        setError(null);
+        
+        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+        
+        if (sessionError) {
+          console.error('Error getting session:', sessionError);
+          setError('Error de autenticación. Por favor, intenta nuevamente.');
+          return;
+        }
+        
+        setUser(session?.user || null);
 
-      // Si no hay sesión y no está en login, redirigir
-      if (!session && pathname !== '/admin/login') {
-        router.push('/admin/login');
+        // Si no hay sesión y no está en login, redirigir
+        if (!session && pathname !== '/admin/login') {
+          router.push('/admin/login');
+        }
+      } catch (err) {
+        console.error('Error in checkSession:', err);
+        setError('Error inesperado. Por favor, recarga la página.');
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -29,10 +46,15 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     // Escuchar cambios de autenticación
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
+        console.log('Auth state change:', event, session?.user?.email);
         setUser(session?.user || null);
         
         if (event === 'SIGNED_OUT') {
           router.push('/admin/login');
+        }
+        
+        if (event === 'SIGNED_IN') {
+          console.log('User signed in:', session?.user?.email);
         }
       }
     );
@@ -41,8 +63,33 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   }, [router, pathname]);
 
   const handleLogout = async () => {
-    await supabase.auth.signOut();
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) {
+        console.error('Error signing out:', error);
+        setError('Error al cerrar sesión');
+      }
+    } catch (err) {
+      console.error('Unexpected error signing out:', err);
+      setError('Error inesperado al cerrar sesión');
+    }
   };
+
+  // Si hay error, mostrar mensaje de error
+  if (error && !loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center p-6 bg-white rounded-lg shadow-lg max-w-md">
+          <div className="text-red-500 mb-4">❌</div>
+          <h2 className="text-lg font-semibold text-gray-800 mb-2">Error</h2>
+          <p className="text-gray-600 mb-4">{error}</p>
+          <Button onClick={() => window.location.reload()}>
+            Recargar página
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   // Si está cargando, mostrar spinner
   if (loading) {
@@ -80,7 +127,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             </div>
             
             <div className="flex items-center space-x-4">
-              <span className="text-sm text-gray-600">
+              <span className="text-sm text-gray-500">
                 {user.email}
               </span>
               <Button variant="ghost" onClick={handleLogout}>
