@@ -39,7 +39,6 @@ export default function Footer() {
 
   const resourcesLinks = [
     { name: "Blog", href: "/blog" },
-    { name: "Publicaciones", href: "/publicaciones" },
     { name: "Preguntas frecuentes", href: "/faqs" },
     { name: "Términos y condiciones", href: "/terminos" },
   ];
