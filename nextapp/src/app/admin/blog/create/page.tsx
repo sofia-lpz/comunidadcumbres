@@ -9,7 +9,7 @@ import Button from '@/components/ui/Button';
 interface FormData {
   title: string;
   content: string;
-  image_url: string;
+  image_urls: string[];
   published: boolean;
 }
 
@@ -17,7 +17,7 @@ export default function CreateBlogPost() {
   const [formData, setFormData] = useState<FormData>({
     title: '',
     content: '',
-    image_url: '',
+    image_urls: [''],
     published: false
   });
   const [loading, setLoading] = useState(false);
@@ -35,14 +35,45 @@ export default function CreateBlogPost() {
     }));
   };
 
+  const handleImageUrlChange = (index: number, value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      image_urls: prev.image_urls.map((url, i) => i === index ? value : url)
+    }));
+  };
+
+  const addImageUrl = () => {
+    if (formData.image_urls.length < 3) {
+      setFormData(prev => ({
+        ...prev,
+        image_urls: [...prev.image_urls, '']
+      }));
+    }
+  };
+
+  const removeImageUrl = (index: number) => {
+    if (formData.image_urls.length > 1) {
+      setFormData(prev => ({
+        ...prev,
+        image_urls: prev.image_urls.filter((_, i) => i !== index)
+      }));
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
 
     try {
+      // Filter out empty image URLs
+      const filteredImageUrls = formData.image_urls.filter(url => url.trim() !== '');
+      
       const postData = {
-        ...formData,
+        title: formData.title,
+        content: formData.content,
+        image_urls: filteredImageUrls,
+        published: formData.published,
         published_at: formData.published ? new Date().toISOString() : null
       };
 
@@ -86,14 +117,56 @@ export default function CreateBlogPost() {
           required
         />
 
-        <Input
-          label="URL de la Imagen (opcional)"
-          name="image_url"
-          type="url"
-          value={formData.image_url}
-          onChange={handleChange}
-          placeholder="https://ejemplo.com/imagen.jpg"
-        />
+        {/* Multiple Image URLs Section */}
+        <div className="space-y-4">
+          <div className="flex justify-between items-center">
+            <label className="block text-sm font-medium text-gray-700">
+              Imágenes (máximo 3)
+            </label>
+            {formData.image_urls.length < 3 && (
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                onClick={addImageUrl}
+                className="text-[#5D84C4] hover:text-[#4A90E2]"
+              >
+                + Agregar imagen
+              </Button>
+            )}
+          </div>
+          
+          {formData.image_urls.map((url, index) => (
+            <div key={index} className="flex gap-2 items-end">
+              <div className="flex-1">
+                <Input
+                  label={`URL de la Imagen ${index + 1}${index === 0 ? ' (Principal)' : ''}`}
+                  name={`image_url_${index}`}
+                  type="url"
+                  value={url}
+                  onChange={(e) => handleImageUrlChange(index, e.target.value)}
+                  placeholder="https://ejemplo.com/imagen.jpg"
+                />
+              </div>
+              {formData.image_urls.length > 1 && (
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => removeImageUrl(index)}
+                  className="text-red-600 hover:text-red-800 mb-2"
+                >
+                  ✕
+                </Button>
+              )}
+            </div>
+          ))}
+          
+          <p className="text-xs text-gray-500">
+            La primera imagen será la imagen principal que aparece en el header. 
+            Las demás aparecerán dentro del contenido del post.
+          </p>
+        </div>
 
         <Textarea
           label="Contenido"

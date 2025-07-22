@@ -14,19 +14,23 @@ interface Program {
   id: string;
   title: string;
   short_description: string;
+  full_description?: string;
   image_url?: string;
   status: string;
   created_at: string;
+  updated_at?: string;
   categories?: Category;
   target_audience?: string;
   external_form_url?: string;
   featured: boolean;
+  requirements?: string;
 }
 
 interface Campaign {
   id: string;
   title: string;
   description: string;
+  full_description?: string;
   image: string;
   status: string;
   href: string;
@@ -35,6 +39,9 @@ interface Campaign {
   target_audience?: string;
   external_form_url?: string;
   featured: boolean;
+  created_at: string;
+  updated_at?: string;
+  requirements?: string;
 }
 
 export default function ActiveCampaigns() {
@@ -66,6 +73,7 @@ export default function ActiveCampaigns() {
           id: program.id,
           title: program.title,
           description: program.short_description,
+          full_description: program.full_description,
           image: program.image_url || "/images/default-program.svg",
           status: program.status,
           href: `/programas/${program.id}`,
@@ -73,7 +81,10 @@ export default function ActiveCampaigns() {
           categoryColor: program.categories?.color,
           target_audience: program.target_audience,
           external_form_url: program.external_form_url,
-          featured: program.featured
+          featured: program.featured,
+          created_at: program.created_at,
+          updated_at: program.updated_at,
+          requirements: program.requirements
         }));
 
         setCampaigns(transformedData);
@@ -88,7 +99,8 @@ export default function ActiveCampaigns() {
             image: "/images/default-program.svg",
             status: "active",
             href: "/programas",
-            featured: false
+            featured: false,
+            created_at: new Date().toISOString()
           }
         ]);
       } finally {
