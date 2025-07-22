@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Hero from "@/components/home/Hero.jsx";
-import ActiveCampaigns from "@/components/home/ActivieCampaingns.jsx";
+import ActiveCampaigns from "@/components/home/ActiveCampaigns";
 
 export default function Home() {
   return (
