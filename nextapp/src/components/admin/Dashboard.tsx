@@ -46,7 +46,7 @@ export default function Dashboard({ stats }: DashboardProps) {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold text-[#222222]">Dashboard</h1>
-        <p className="text-sm text-gray-600">
+        <p className="text-sm text-gray-500">
           Bienvenido al panel de administración del Patronato Cumbres
         </p>
       </div>
@@ -59,7 +59,7 @@ export default function Dashboard({ stats }: DashboardProps) {
             <div key={index} className="bg-white rounded-lg shadow-sm border p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600 mb-1">
+                  <p className="text-sm font-medium text-gray-500 mb-1">
                     {card.title}
                   </p>
                   <p className="text-2xl font-bold text-[#222222]">
@@ -87,7 +87,7 @@ export default function Dashboard({ stats }: DashboardProps) {
           >
             <Calendar className="w-8 h-8 text-[#5D84C4] mx-auto mb-2" />
             <p className="font-medium text-[#222222]">Crear Programa</p>
-            <p className="text-sm text-gray-600">Añadir nuevo programa</p>
+            <p className="text-sm text-gray-500">Añadir nuevo programa</p>
           </a>
           
           <a
@@ -96,7 +96,7 @@ export default function Dashboard({ stats }: DashboardProps) {
           >
             <BookOpen className="w-8 h-8 text-[#5D84C4] mx-auto mb-2" />
             <p className="font-medium text-[#222222]">Crear Post</p>
-            <p className="text-sm text-gray-600">Añadir nueva publicación</p>
+            <p className="text-sm text-gray-500">Añadir nueva publicación</p>
           </a>
           
           <a
@@ -106,7 +106,7 @@ export default function Dashboard({ stats }: DashboardProps) {
           >
             <TrendingUp className="w-8 h-8 text-[#5D84C4] mx-auto mb-2" />
             <p className="font-medium text-[#222222]">Ver Sitio</p>
-            <p className="text-sm text-gray-600">Visitar página principal</p>
+            <p className="text-sm text-gray-500">Visitar página principal</p>
           </a>
         </div>
       </div>
@@ -122,15 +122,15 @@ export default function Dashboard({ stats }: DashboardProps) {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
           <div>
             <p className="font-medium">Beneficiarios:</p>
-            <p className="text-blue-100">Empleados, personal doméstico, San Mateo</p>
+            <p className="text-blue-200">Empleados, personal doméstico, San Mateo</p>
           </div>
           <div>
             <p className="font-medium">Programas:</p>
-            <p className="text-blue-100">Educación, salud, comunitarios</p>
+            <p className="text-blue-200">Educación, salud, comunitarios</p>
           </div>
           <div>
             <p className="font-medium">Tecnología:</p>
-            <p className="text-blue-100">Next.js + Supabase + Vercel</p>
+            <p className="text-blue-200">Next.js + Supabase + Vercel</p>
           </div>
         </div>
       </div>

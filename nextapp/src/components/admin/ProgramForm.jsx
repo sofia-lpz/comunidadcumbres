@@ -86,7 +86,7 @@ export default function ProgramForm({ program = null, onSubmit, onCancel }) {
       />
       
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label className="block text-sm font-medium text-gray-600 mb-2">
           Descripción Corta (para cards)
         </label>
         <textarea
@@ -94,14 +94,14 @@ export default function ProgramForm({ program = null, onSubmit, onCancel }) {
           value={formData.short_description}
           onChange={handleChange}
           rows={3}
-          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#5D84C4] focus:border-transparent"
+          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#5D84C4] focus:border-transparent text-gray-900 placeholder-gray-400 bg-white"
           placeholder="Descripción breve que aparecerá en las tarjetas..."
           required
         />
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label className="block text-sm font-medium text-gray-600 mb-2">
           Descripción Completa (opcional)
         </label>
         <textarea
@@ -109,7 +109,7 @@ export default function ProgramForm({ program = null, onSubmit, onCancel }) {
           value={formData.full_description}
           onChange={handleChange}
           rows={6}
-          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#5D84C4] focus:border-transparent"
+          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#5D84C4] focus:border-transparent text-gray-900 placeholder-gray-400 bg-white"
           placeholder="Descripción detallada que aparecerá en el modal..."
         />
       </div>
@@ -124,14 +124,14 @@ export default function ProgramForm({ program = null, onSubmit, onCancel }) {
       />
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label className="block text-sm font-medium text-gray-600 mb-2">
           Categoría
         </label>
         <select
           name="category_id"
           value={formData.category_id}
           onChange={handleChange}
-          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#5D84C4] focus:border-transparent"
+          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#5D84C4] focus:border-transparent text-gray-900 bg-white"
           required
         >
           <option value="">Seleccionar categoría</option>
@@ -144,14 +144,14 @@ export default function ProgramForm({ program = null, onSubmit, onCancel }) {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label className="block text-sm font-medium text-gray-600 mb-2">
           Público Objetivo
         </label>
         <select
           name="target_audience"
           value={formData.target_audience}
           onChange={handleChange}
-          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#5D84C4] focus:border-transparent"
+          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#5D84C4] focus:border-transparent text-gray-900 bg-white"
           required
         >
           <option value="">Seleccionar público</option>
@@ -172,7 +172,7 @@ export default function ProgramForm({ program = null, onSubmit, onCancel }) {
       />
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label className="block text-sm font-medium text-gray-600 mb-2">
           Requisitos (opcional)
         </label>
         <textarea
@@ -180,20 +180,20 @@ export default function ProgramForm({ program = null, onSubmit, onCancel }) {
           value={formData.requirements}
           onChange={handleChange}
           rows={3}
-          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#5D84C4] focus:border-transparent"
+          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#5D84C4] focus:border-transparent text-gray-900 placeholder-gray-400 bg-white"
           placeholder="Documentos necesarios, edad mínima, etc..."
         />
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label className="block text-sm font-medium text-gray-600 mb-2">
           Estado
         </label>
         <select
           name="status"
           value={formData.status}
           onChange={handleChange}
-          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#5D84C4] focus:border-transparent"
+          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#5D84C4] focus:border-transparent text-gray-900 bg-white"
         >
           <option value="active">Activo</option>
           <option value="upcoming">Próximo</option>
@@ -209,7 +209,7 @@ export default function ProgramForm({ program = null, onSubmit, onCancel }) {
           onChange={handleChange}
           className="mr-2 h-4 w-4 text-[#5D84C4] focus:ring-[#5D84C4] border-gray-300 rounded"
         />
-        <label className="text-sm font-medium text-gray-700">
+        <label className="text-sm font-medium text-gray-600">
           Destacar en página principal
         </label>
       </div>
