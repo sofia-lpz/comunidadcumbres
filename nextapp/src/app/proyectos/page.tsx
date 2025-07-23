@@ -1,5 +1,3 @@
-// src/app/proyectos/page.tsx
-
 import Image from "next/image";
 import Link from "next/link";
 
@@ -8,6 +6,7 @@ type Proyecto = {
   title: string;
   description: string;
   image: string;
+  href: string;
 };
 
 const proyectos: Proyecto[] = [
@@ -17,6 +16,7 @@ const proyectos: Proyecto[] = [
     description:
       "Sesiones de tutoría y entrega de útiles escolares para niños de la comunidad.",
     image: "/images/proyectos/educativo.jpg",
+    href: "/proyectos/apoyo-educativo",
   },
   {
     id: 2,
@@ -24,6 +24,7 @@ const proyectos: Proyecto[] = [
     description:
       "Jornadas médicas y entrega de insumos básicos para mejorar la salud familiar.",
     image: "/images/proyectos/salud.jpg",
+    href: "/proyectos/salud",
   },
   {
     id: 3,
@@ -31,6 +32,7 @@ const proyectos: Proyecto[] = [
     description:
       "Plantación de árboles y mantenimiento de áreas verdes para un entorno más limpio.",
     image: "/images/proyectos/reforestacion.jpg",
+    href: "/proyectos/reforestacion",
   },
   {
     id: 4,
@@ -38,6 +40,7 @@ const proyectos: Proyecto[] = [
     description:
       "Espacios donde vecinos y colaboradores participan activamente en labores sociales.",
     image: "/images/proyectos/voluntariado.jpg",
+    href: "/proyectos/voluntariado",
   },
   {
     id: 5,
@@ -45,6 +48,7 @@ const proyectos: Proyecto[] = [
     description:
       "Rehabilitación de espacios comunitarios y reparaciones de mobiliario público.",
     image: "/images/proyectos/infraestructura.jpg",
+    href: "/proyectos/infraestructura",
   },
   {
     id: 6,
@@ -52,6 +56,7 @@ const proyectos: Proyecto[] = [
     description:
       "Talleres de arte, música y deporte para fomentar el desarrollo integral.",
     image: "/images/proyectos/cultural.jpg",
+    href: "/proyectos/culturales",
   },
 ];
 
@@ -81,7 +86,7 @@ export default function ProyectosPage() {
             <h3 className="text-xl font-semibold mb-2">{proy.title}</h3>
             <p className="text-gray-600 flex-grow">{proy.description}</p>
             <Link
-              href="/contacto"
+              href={proy.href}
               className="mt-4 inline-block text-[#5D84C4] font-medium hover:underline"
             >
               Más información
