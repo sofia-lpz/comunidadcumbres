@@ -7,11 +7,12 @@ import ProgramForm from '@/components/admin/ProgramForm';
 import Modal from '@/components/ui/Modal';
 import Button from '@/components/ui/Button';
 import { Plus } from 'lucide-react';
+import { Program, ProgramFormData, ProgramBase } from '@/types/program';
 
 export default function AdminProgramsPage() {
   const { programs, loading, error, refetch } = usePrograms();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editingProgram, setEditingProgram] = useState(null);
+  const [editingProgram, setEditingProgram] = useState<Program | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
   const handleCreateProgram = async (formData: any) => {
@@ -77,9 +78,13 @@ export default function AdminProgramsPage() {
     }
   };
 
-  const handleEditProgram = (program: any) => {
-    setEditingProgram(program);
-    setIsModalOpen(true);
+  const handleEditProgram = (programBase: ProgramBase) => {
+    // Encontrar el programa completo en la lista
+    const fullProgram = programs.find(p => p.id === programBase.id);
+    if (fullProgram) {
+      setEditingProgram(fullProgram);
+      setIsModalOpen(true);
+    }
   };
 
   const handleCloseModal = () => {
@@ -88,6 +93,22 @@ export default function AdminProgramsPage() {
   };
 
   const handleSubmit = editingProgram ? handleUpdateProgram : handleCreateProgram;
+
+  // Convertir Program a ProgramBase para ProgramList
+  const programsForList: ProgramBase[] = programs.map(program => ({
+    id: program.id,
+    title: program.title,
+    short_description: program.short_description,
+    status: program.status,
+    target_audience: program.target_audience,
+    external_form_url: program.external_form_url,
+    featured: program.featured,
+    created_at: program.created_at,
+    categories: program.categories ? {
+      name: program.categories.name,
+      color: program.categories.color
+    } : undefined
+  }));
 
   if (loading) {
     return (
@@ -116,7 +137,7 @@ export default function AdminProgramsPage() {
       </div>
 
       <ProgramList 
-        programs={programs}
+        programs={programsForList}
         onEdit={handleEditProgram}
         onDelete={handleDeleteProgram}
       />
@@ -128,7 +149,7 @@ export default function AdminProgramsPage() {
         size="lg"
       >
         <ProgramForm
-          program={editingProgram}
+          program={editingProgram as any}
           onSubmit={handleSubmit}
           onCancel={handleCloseModal}
         />

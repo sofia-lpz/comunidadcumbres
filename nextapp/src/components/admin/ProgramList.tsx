@@ -1,25 +1,11 @@
 'use client';
 import { Edit, Trash2, ExternalLink, Star } from 'lucide-react';
 import Button from '@/components/ui/Button';
-
-interface Program {
-  id: string;
-  title: string;
-  short_description: string;
-  status: 'active' | 'upcoming' | 'completed';
-  target_audience: string;
-  external_form_url?: string;
-  featured: boolean;
-  created_at: string;
-  categories?: {
-    name: string;
-    color: string;
-  };
-}
+import { ProgramBase } from '@/types/program';
 
 interface ProgramListProps {
-  programs: Program[];
-  onEdit: (program: Program) => void;
+  programs: ProgramBase[];
+  onEdit: (program: ProgramBase) => void;
   onDelete: (programId: string) => void;
 }
 
@@ -132,7 +118,7 @@ export default function ProgramList({ programs, onEdit, onDelete }: ProgramListP
                         variant="ghost"
                         size="sm"
                         onClick={() => window.open(program.external_form_url, '_blank')}
-                        title="Abrir formulario"
+                        aria-label="Abrir formulario"
                       >
                         <ExternalLink className="w-4 h-4" />
                       </Button>
@@ -142,7 +128,7 @@ export default function ProgramList({ programs, onEdit, onDelete }: ProgramListP
                       variant="ghost"
                       size="sm"
                       onClick={() => onEdit(program)}
-                      title="Editar programa"
+                      aria-label="Editar programa"
                     >
                       <Edit className="w-4 h-4" />
                     </Button>
@@ -152,7 +138,7 @@ export default function ProgramList({ programs, onEdit, onDelete }: ProgramListP
                       size="sm"
                       onClick={() => onDelete(program.id)}
                       className="text-red-600 hover:text-red-900"
-                      title="Eliminar programa"
+                      aria-label="Eliminar programa"
                     >
                       <Trash2 className="w-4 h-4" />
                     </Button>

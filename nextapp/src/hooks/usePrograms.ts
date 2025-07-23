@@ -1,11 +1,12 @@
 
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
+import { Program } from '@/types/program';
 
 export function usePrograms() {
-  const [programs, setPrograms] = useState([]);
+  const [programs, setPrograms] = useState<Program[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
 
   const fetchPrograms = async () => {
     try {
