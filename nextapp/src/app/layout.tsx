@@ -18,11 +18,12 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Patronato Cumbres de Santa Fe",
   description: "Transformando vidas a través del apoyo comunitario en Cumbres de Santa Fe",
-  icons: {
-    icon: '/favicon.ico',
-    shortcut: '/favicon.ico',
-    apple: '/apple-touch-icon.png',
-  },
+  icons: [
+    { rel: 'icon', url: '/favicon.ico?v=2' },
+    { rel: 'icon', url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+    { rel: 'icon', url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+    { rel: 'apple-touch-icon', url: '/apple-touch-icon.png', sizes: '180x180' },
+  ],
 };
 
 export default function RootLayout({
