@@ -37,6 +37,9 @@ yarn-error.log*
 .env.test.local
 .env.production.local
 
+# Ensure example files don't contain real credentials
+!.env.example
+
 # vercel
 .vercel
 

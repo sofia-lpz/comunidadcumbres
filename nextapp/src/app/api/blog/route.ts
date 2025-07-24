@@ -1,12 +1,28 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { supabase } from '@/lib/supabase';
+
+// Importar dinámicamente supabase para evitar errores durante el build
+let supabase: any = null;
+
+async function getSupabaseClient() {
+  if (!supabase) {
+    try {
+      const { supabase: client } = await import('@/lib/supabase');
+      supabase = client;
+    } catch (error) {
+      console.error('Error inicializando Supabase:', error);
+      throw new Error('Database connection failed');
+    }
+  }
+  return supabase;
+}
 
 export async function GET(request: NextRequest) {
   try {
+    const client = await getSupabaseClient();
     const { searchParams } = new URL(request.url);
     const published = searchParams.get('published');
     
-    let query = supabase
+    let query = client
       .from('blog_posts')
       .select('*');
     
@@ -29,6 +45,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
+    const client = await getSupabaseClient();
     const body = await request.json();
     const { title, content, image_urls, published } = body;
     
@@ -36,7 +53,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Título y contenido son obligatorios' }, { status: 400 });
     }
     
-    const { data, error } = await supabase
+    const { data, error } = await client
       .from('blog_posts')
       .insert([{
         title,
