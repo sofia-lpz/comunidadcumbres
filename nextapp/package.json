@@ -2,12 +2,15 @@
   "name": "comunidadcumbres",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build",
+    "build": "npm run validate-env && next build",
+    "build:safe": "npm run validate-env && npm run verify && next build",
     "start": "next start",
     "lint": "next lint",
-    "verify": "node verify-connection.js"
+    "verify": "node verify-connection.js",
+    "validate-env": "node validate-env.js"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.52.0",

@@ -1,14 +1,30 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { supabase } from '@/lib/supabase';
+
+// Importar dinámicamente supabase para evitar errores durante el build
+let supabase: any = null;
+
+async function getSupabaseClient() {
+  if (!supabase) {
+    try {
+      const { supabase: client } = await import('@/lib/supabase');
+      supabase = client;
+    } catch (error) {
+      console.error('Error inicializando Supabase:', error);
+      throw new Error('Database connection failed');
+    }
+  }
+  return supabase;
+}
 
 export async function GET(request: NextRequest) {
   try {
+    const client = await getSupabaseClient();
     const { searchParams } = new URL(request.url);
     const featured = searchParams.get('featured');
     const status = searchParams.get('status');
     const categoryId = searchParams.get('category_id');
     
-    let query = supabase
+    let query = client
       .from('programs')
       .select('*, categories(name, slug, color, icon)');
     
@@ -39,6 +55,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
+    const client = await getSupabaseClient();
     const body = await request.json();
     const { 
       title, 
@@ -59,7 +76,7 @@ export async function POST(request: NextRequest) {
       }, { status: 400 });
     }
     
-    const { data, error } = await supabase
+    const { data, error } = await client
       .from('programs')
       .insert([{
         title,
@@ -86,6 +103,7 @@ export async function POST(request: NextRequest) {
 
 export async function PUT(request: NextRequest) {
   try {
+    const client = await getSupabaseClient();
     const body = await request.json();
     const { 
       id,
@@ -111,7 +129,7 @@ export async function PUT(request: NextRequest) {
       }, { status: 400 });
     }
     
-    const { data, error } = await supabase
+    const { data, error } = await client
       .from('programs')
       .update({
         title,
@@ -143,6 +161,7 @@ export async function PUT(request: NextRequest) {
 
 export async function DELETE(request: NextRequest) {
   try {
+    const client = await getSupabaseClient();
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
     
@@ -150,7 +169,7 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: 'ID del programa es obligatorio' }, { status: 400 });
     }
     
-    const { error } = await supabase
+    const { error } = await client
       .from('programs')
       .delete()
       .eq('id', id);

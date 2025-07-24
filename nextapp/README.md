@@ -1,36 +1,144 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Comunidad Cumbres - Next.js Application
 
-## Getting Started
+Una aplicación web para la gestión de programas comunitarios, construida con Next.js y Supabase.
 
-First, run the development server:
+## 🚀 Configuración Inicial
+
+### 1. Instalar dependencias
+
+```bash
+npm install
+```
+
+### 2. Configurar variables de entorno
+
+Copia el archivo de ejemplo y configura tus variables:
+
+```bash
+cp .env.example .env.local
+```
+
+Edita `.env.local` con tus credenciales de Supabase:
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=https://tu-proyecto.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=tu-clave-anonima-aqui
+```
+
+### 3. Verificar conexión
+
+```bash
+npm run verify
+```
+
+### 4. Ejecutar en desarrollo
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abre [http://localhost:3000](http://localhost:3000) en tu navegador.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🛠️ Scripts Disponibles
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `npm run dev` - Servidor de desarrollo
+- `npm run build` - Build para producción (con validación)
+- `npm run build:safe` - Build con validación extra
+- `npm run start` - Servidor de producción
+- `npm run verify` - Verificar conexión con la base de datos
+- `npm run validate-env` - Validar variables de entorno
 
-## Learn More
+## 🚀 Deployment en Vercel
 
-To learn more about Next.js, take a look at the following resources:
+### Variables de Entorno Requeridas
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+En Vercel Dashboard > Settings > Environment Variables, configura:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+NEXT_PUBLIC_SUPABASE_URL=https://tu-proyecto.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=tu-clave-anonima-aqui
+```
 
-## Deploy on Vercel
+### Build Command
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+npm run build
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Solución a Problemas de Deployment
+
+Si experimentas errores durante el deployment:
+
+1. ✅ **Variables de entorno configuradas**: Asegúrate de que las variables estén en Vercel
+2. ✅ **Build mejorado**: Usamos importación dinámica para evitar errores durante el build
+3. ✅ **Validación pre-build**: El sistema valida la configuración antes del build
+4. ✅ **Manejo de errores robusto**: APIs con mejor manejo de errores de conexión
+
+Ver `DEPLOYMENT.md` para más detalles sobre la solución implementada.
+
+## 📁 Estructura del Proyecto
+
+```
+src/
+├── app/                    # App Router de Next.js
+│   ├── api/               # API Routes
+│   ├── admin/             # Panel administrativo
+│   ├── blog/              # Blog y artículos
+│   └── programas/         # Gestión de programas
+├── components/            # Componentes reutilizables
+├── lib/                   # Utilidades y configuración
+│   ├── supabase.js       # Cliente Supabase mejorado
+│   └── env-config.js     # Configuración de entorno
+└── types/                 # Definiciones de tipos TypeScript
+```
+
+## 🗄️ Base de Datos
+
+La aplicación utiliza Supabase como backend con las siguientes tablas principales:
+
+- `programs` - Programas comunitarios
+- `categories` - Categorías de programas
+- `blog_posts` - Artículos del blog
+
+## 🔧 Características Implementadas
+
+- ✅ **Gestión de Programas**: CRUD completo para programas comunitarios
+- ✅ **Blog**: Sistema de gestión de contenido
+- ✅ **Admin Panel**: Panel administrativo para gestión
+- ✅ **Responsive Design**: Diseño adaptable con Tailwind CSS
+- ✅ **TypeScript**: Tipado estático para mejor desarrollo
+- ✅ **Error Handling**: Manejo robusto de errores
+- ✅ **Production Ready**: Optimizado para producción en Vercel
+
+## 🐛 Troubleshooting
+
+### Error: "Missing Supabase environment variables"
+
+1. Verifica que `.env.local` existe y tiene las variables correctas
+2. En Vercel, configura las variables en Settings > Environment Variables
+3. Ejecuta `npm run validate-env` para verificar
+
+### Problemas de Build
+
+1. Ejecuta `npm run validate-env` localmente
+2. Verifica que no hay errores de sintaxis en las APIs
+3. Revisa los logs de build en Vercel
+
+### Conexión a Supabase
+
+1. Verifica que la URL de Supabase sea correcta
+2. Confirma que la clave anónima sea válida
+3. Revisa la configuración de CORS en Supabase
+
+## 📄 Licencia
+
+Este proyecto es parte de Comunidad Cumbres.
+
+---
+
+## 📚 Recursos Adicionales
+
+- [Next.js Documentation](https://nextjs.org/docs) - Documentación oficial de Next.js
+- [Supabase Documentation](https://supabase.com/docs) - Documentación de Supabase
+- [Tailwind CSS](https://tailwindcss.com/docs) - Framework CSS utilizado
+- [Vercel Platform](https://vercel.com) - Plataforma de deployment
