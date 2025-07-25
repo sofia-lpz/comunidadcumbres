@@ -1,7 +1,7 @@
 
 'use client';
 import { useState, useEffect } from 'react';
-import { supabase } from '@/lib/supabase';
+import { createClient } from '@/utils/supabase/client';
 import Input from '@/components/ui/Input';
 import Button from '@/components/ui/Button';
 
@@ -41,6 +41,7 @@ export default function ProgramForm({ program = null, onSubmit, onCancel }) {
     // Cargar categorías
     async function fetchCategories() {
       try {
+        const supabase = createClient();
         const { data, error } = await supabase
           .from('categories')
           .select('*')

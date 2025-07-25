@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { supabase } from '@/lib/supabase';
+import { createClient } from '@/utils/supabase/client';
 import Dashboard from '@/components/admin/Dashboard';
 
 export default function AdminPage() {
@@ -16,6 +16,8 @@ export default function AdminPage() {
     async function fetchStats() {
       try {
         setLoading(true);
+        
+        const supabase = createClient();
         
         // Obtener estadísticas de programas
         const { data: programs, error: programsError } = await supabase

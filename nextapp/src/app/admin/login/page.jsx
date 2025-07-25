@@ -2,7 +2,7 @@
 'use client';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { supabase } from '@/lib/supabase';
+import { createClient } from '@/utils/supabase/client';
 import Input from '@/components/ui/Input';
 import Button from '@/components/ui/Button';
 
@@ -21,6 +21,7 @@ export default function AdminLogin() {
     try {
       console.log('Attempting login for:', email);
       
+      const supabase = createClient();
       const { data, error: authError } = await supabase.auth.signInWithPassword({
         email: email.trim(),
         password: password

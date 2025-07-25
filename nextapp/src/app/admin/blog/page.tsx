@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { supabase } from '@/lib/supabase';
+import { createClient } from '@/utils/supabase/client';
 import Button from '@/components/ui/Button';
 
 interface BlogPost {
@@ -20,6 +20,7 @@ export default function BlogPage() {
   useEffect(() => {
     async function fetchPosts() {
       try {
+        const supabase = createClient();
         const { data, error } = await supabase
           .from('blog_posts')
           .select('*')
@@ -40,6 +41,7 @@ export default function BlogPage() {
   const handleDeletePost = async (id: string) => {
     if (confirm('¿Estás seguro de que quieres eliminar este post?')) {
       try {
+        const supabase = createClient();
         const { error } = await supabase
           .from('blog_posts')
           .delete()
@@ -56,6 +58,7 @@ export default function BlogPage() {
 
   const togglePublished = async (post: BlogPost) => {
     try {
+      const supabase = createClient();
       const { error } = await supabase
         .from('blog_posts')
         .update({ 

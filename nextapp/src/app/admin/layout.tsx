@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
-import { supabase } from '@/lib/supabase';
+import { createClient } from '@/utils/supabase/client';
 import Button from '@/components/ui/Button';
 import type { User } from '@supabase/supabase-js';
 
@@ -19,6 +19,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         setLoading(true);
         setError(null);
         
+        const supabase = createClient();
         const { data: { session }, error: sessionError } = await supabase.auth.getSession();
         
         if (sessionError) {
@@ -44,6 +45,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     checkSession();
 
     // Escuchar cambios de autenticación
+    const supabase = createClient();
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
         console.log('Auth state change:', event, session?.user?.email);
@@ -64,6 +66,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   const handleLogout = async () => {
     try {
+      const supabase = createClient();
       const { error } = await supabase.auth.signOut();
       if (error) {
         console.error('Error signing out:', error);

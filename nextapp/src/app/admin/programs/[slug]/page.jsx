@@ -1,7 +1,7 @@
 // En src/app/programas/[slug]/page.jsx
 'use client';
 import { useEffect, useState } from 'react';
-import { supabase } from '@/lib/supabase';
+import { createClient } from '@/utils/supabase/client';
 import { useParams } from 'next/navigation';
 import Button from '@/components/ui/Button';
 import Modal from '@/components/ui/Modal';
@@ -16,6 +16,7 @@ export default function ProgramDetail() {
     async function fetchProgram() {
       setLoading(true);
       try {
+        const supabase = createClient();
         const { data, error } = await supabase
           .from('programs')
           .select('*, categories(*)')

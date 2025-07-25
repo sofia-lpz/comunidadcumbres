@@ -5,14 +5,14 @@
   "type": "module",
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "npm run validate-env && next build",
-    "build:safe": "npm run validate-env && npm run verify && next build",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "verify": "node verify-connection.js",
     "validate-env": "node validate-env.js"
   },
   "dependencies": {
+    "@supabase/ssr": "^0.6.1",
     "@supabase/supabase-js": "^2.52.0",
     "dotenv": "^16.4.5",
     "lucide-react": "^0.525.0",

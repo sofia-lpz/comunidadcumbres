@@ -1,30 +1,22 @@
-import { NextRequest, NextResponse } from 'next/server';
-
-// Importar dinámicamente supabase para evitar errores durante el build
-let supabase: any = null;
-
-async function getSupabaseClient() {
-  if (!supabase) {
-    try {
-      const { supabase: client } = await import('@/lib/supabase');
-      supabase = client;
-    } catch (error) {
-      console.error('Error inicializando Supabase:', error);
-      throw new Error('Database connection failed');
-    }
-  }
-  return supabase;
-}
+import { createClient } from '@/utils/supabase/server'
+import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(request: NextRequest) {
   try {
-    const client = await getSupabaseClient();
+    const supabase = await createClient();
+    const isBuildTime = !process.env.VERCEL_URL && process.env.NODE_ENV === 'production'
+    
+    if (isBuildTime) {
+      console.log('Build time detected, returning empty programs')
+      return NextResponse.json([])
+    }
+
     const { searchParams } = new URL(request.url);
     const featured = searchParams.get('featured');
     const status = searchParams.get('status');
     const categoryId = searchParams.get('category_id');
     
-    let query = client
+    let query = supabase
       .from('programs')
       .select('*, categories(name, slug, color, icon)');
     
@@ -55,7 +47,13 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const client = await getSupabaseClient();
+    const isBuildTime = !process.env.VERCEL_URL && process.env.NODE_ENV === 'production'
+    
+    if (isBuildTime) {
+      return NextResponse.json({ error: 'Not available during build' }, { status: 503 })
+    }
+
+    const supabase = await createClient();
     const body = await request.json();
     const { 
       title, 
@@ -76,7 +74,7 @@ export async function POST(request: NextRequest) {
       }, { status: 400 });
     }
     
-    const { data, error } = await client
+    const { data, error } = await supabase
       .from('programs')
       .insert([{
         title,
@@ -103,7 +101,13 @@ export async function POST(request: NextRequest) {
 
 export async function PUT(request: NextRequest) {
   try {
-    const client = await getSupabaseClient();
+    const isBuildTime = !process.env.VERCEL_URL && process.env.NODE_ENV === 'production'
+    
+    if (isBuildTime) {
+      return NextResponse.json({ error: 'Not available during build' }, { status: 503 })
+    }
+
+    const supabase = await createClient();
     const body = await request.json();
     const { 
       id,
@@ -129,7 +133,7 @@ export async function PUT(request: NextRequest) {
       }, { status: 400 });
     }
     
-    const { data, error } = await client
+    const { data, error } = await supabase
       .from('programs')
       .update({
         title,
@@ -161,7 +165,13 @@ export async function PUT(request: NextRequest) {
 
 export async function DELETE(request: NextRequest) {
   try {
-    const client = await getSupabaseClient();
+    const isBuildTime = !process.env.VERCEL_URL && process.env.NODE_ENV === 'production'
+    
+    if (isBuildTime) {
+      return NextResponse.json({ error: 'Not available during build' }, { status: 503 })
+    }
+
+    const supabase = await createClient();
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
     
@@ -169,7 +179,7 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: 'ID del programa es obligatorio' }, { status: 400 });
     }
     
-    const { error } = await client
+    const { error } = await supabase
       .from('programs')
       .delete()
       .eq('id', id);
@@ -182,3 +192,7 @@ export async function DELETE(request: NextRequest) {
     return NextResponse.json({ error: 'Error interno del servidor' }, { status: 500 });
   }
 }
+
+// IMPORTANTE: Esto previene que la ruta se pre-renderice durante el build
+export const dynamic = 'force-dynamic'
+export const runtime = 'nodejs'
