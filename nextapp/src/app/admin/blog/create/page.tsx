@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { supabase } from '@/lib/supabase';
+import { createClient } from '@/utils/supabase/client';
 import Input from '@/components/ui/Input';
 import Textarea from '@/components/ui/Textarea';
 import Button from '@/components/ui/Button';
@@ -77,6 +77,7 @@ export default function CreateBlogPost() {
         published_at: formData.published ? new Date().toISOString() : null
       };
 
+      const supabase = createClient();
       const { data, error } = await supabase
         .from('blog_posts')
         .insert([postData]);

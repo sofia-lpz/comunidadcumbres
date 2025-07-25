@@ -1,49 +1,58 @@
 
 import { createClient } from '@supabase/supabase-js'
-import { getEnvConfigSync } from './env-config'
 
-// Obtener configuración de variables de entorno
-const config = getEnvConfigSync()
-const supabaseUrl = config.supabaseUrl
-const supabaseKey = config.supabaseKey
+// Para el frontend, usar siempre las variables públicas
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
-// Detailed error logging for debugging
+// Validación simple para development
 if (!supabaseUrl || !supabaseKey) {
-  const errorInfo = {
-    supabaseUrl: supabaseUrl ? '✅ SET' : '❌ MISSING',
-    supabaseKey: supabaseKey ? '✅ SET' : '❌ MISSING',
-    nodeEnv: process.env.NODE_ENV || 'undefined',
-    isClient: typeof window !== 'undefined',
-    availableVars: {
-      NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL ? 'SET' : 'NOT SET',
-      NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ? 'SET' : 'NOT SET',
-      SUPABASE_URL: process.env.SUPABASE_URL ? 'SET' : 'NOT SET',
-      SUPABASE_ANON_KEY: process.env.SUPABASE_ANON_KEY ? 'SET' : 'NOT SET'
-    }
-  }
+  console.error('Supabase frontend configuration missing:', {
+    url: !!supabaseUrl,
+    key: !!supabaseKey,
+    env: process.env.NODE_ENV
+  })
   
-  console.error('Supabase configuration error:', errorInfo)
-  
-  if (!supabaseUrl) {
-    throw new Error('supabaseUrl is required.')
-  }
-  
-  if (!supabaseKey) {
-    throw new Error('supabaseKey is required.')
+  // Solo lanzar error en producción del cliente
+  if (process.env.NODE_ENV === 'production' && typeof window !== 'undefined') {
+    throw new Error('Supabase configuration is required')
   }
 }
 
-// Crear cliente con configuración optimizada
-export const supabase = createClient(supabaseUrl, supabaseKey, {
-  auth: {
-    autoRefreshToken: true,
-    persistSession: typeof window !== 'undefined', // Solo en el cliente
-    detectSessionInUrl: typeof window !== 'undefined' // Solo en el cliente
-  },
-  // Configuración adicional para producción
-  global: {
-    headers: {
-      'x-application-name': 'comunidadcumbres'
-    }
+// Crear cliente para el frontend con validación
+const createSupabaseClient = () => {
+  if (!supabaseUrl || !supabaseKey) {
+    throw new Error('Supabase configuration missing. Check your environment variables.')
   }
-})
+  
+  return createClient(supabaseUrl, supabaseKey, {
+    auth: {
+      autoRefreshToken: true,
+      persistSession: typeof window !== 'undefined',
+      detectSessionInUrl: typeof window !== 'undefined'
+    }
+  })
+}
+
+// Export el cliente con validación mejorada
+export const supabase = (() => {
+  if (!supabaseUrl || !supabaseKey) {
+    // En desarrollo, mostrar error claro pero no fallar
+    if (process.env.NODE_ENV === 'development') {
+      console.error('🚨 Supabase configuration missing. Please check your .env.local file:')
+      console.error('Required variables: NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY')
+      return null
+    }
+    // En producción, fallar inmediatamente
+    throw new Error('Supabase configuration is required in production')
+  }
+  return createSupabaseClient()
+})()
+
+// Export función para obtener cliente con validación
+export const getSupabaseClient = () => {
+  if (!supabase) {
+    throw new Error('Supabase client is not available. Check your environment variables.')
+  }
+  return supabase
+}

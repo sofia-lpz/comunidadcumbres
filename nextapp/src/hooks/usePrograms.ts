@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from 'react';
-import { supabase } from '@/lib/supabase';
+import { createClient } from '@/utils/supabase/client';
 import { Program } from '@/types/program';
 
 export function usePrograms() {
@@ -11,6 +11,8 @@ export function usePrograms() {
   const fetchPrograms = async () => {
     try {
       setLoading(true);
+      setError(null);
+      const supabase = createClient();
       const { data, error } = await supabase
         .from('programs')
         .select('*, categories(name, slug, color, icon)')

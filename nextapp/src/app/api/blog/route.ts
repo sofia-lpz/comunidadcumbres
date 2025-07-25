@@ -1,28 +1,21 @@
-import { NextRequest, NextResponse } from 'next/server';
-
-// Importar dinámicamente supabase para evitar errores durante el build
-let supabase: any = null;
-
-async function getSupabaseClient() {
-  if (!supabase) {
-    try {
-      const { supabase: client } = await import('@/lib/supabase');
-      supabase = client;
-    } catch (error) {
-      console.error('Error inicializando Supabase:', error);
-      throw new Error('Database connection failed');
-    }
-  }
-  return supabase;
-}
+import { createClient } from '@/utils/supabase/server'
+import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(request: NextRequest) {
   try {
-    const client = await getSupabaseClient();
+    const supabase = await createClient();
+    // Verificar si estamos en build time
+    const isBuildTime = !process.env.VERCEL_URL && process.env.NODE_ENV === 'production'
+    
+    if (isBuildTime) {
+      console.log('Build time detected, returning empty data')
+      return NextResponse.json([])
+    }
+
     const { searchParams } = new URL(request.url);
     const published = searchParams.get('published');
     
-    let query = client
+    let query = supabase
       .from('blog_posts')
       .select('*');
     
@@ -34,18 +27,37 @@ export async function GET(request: NextRequest) {
     
     const { data, error } = await query;
     
-    if (error) throw error;
+    if (error) {
+      console.error('Supabase error:', error)
+      return NextResponse.json(
+        { error: 'Database error', details: error.message },
+        { status: 500 }
+      )
+    }
     
     return NextResponse.json(data || []);
   } catch (error) {
-    console.error('Error fetching blog posts:', error);
-    return NextResponse.json({ error: 'Error interno del servidor' }, { status: 500 });
+    console.error('API Route error:', error);
+    return NextResponse.json(
+      { 
+        error: 'Server error', 
+        message: error instanceof Error ? error.message : 'Unknown error',
+        timestamp: new Date().toISOString()
+      },
+      { status: 500 }
+    );
   }
 }
 
 export async function POST(request: NextRequest) {
   try {
-    const client = await getSupabaseClient();
+    const isBuildTime = !process.env.VERCEL_URL && process.env.NODE_ENV === 'production'
+    
+    if (isBuildTime) {
+      return NextResponse.json({ error: 'Not available during build' }, { status: 503 })
+    }
+
+    const supabase = await createClient();
     const body = await request.json();
     const { title, content, image_urls, published } = body;
     
@@ -53,7 +65,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Título y contenido son obligatorios' }, { status: 400 });
     }
     
-    const { data, error } = await client
+    const { data, error } = await supabase
       .from('blog_posts')
       .insert([{
         title,
@@ -64,11 +76,27 @@ export async function POST(request: NextRequest) {
       }])
       .select();
     
-    if (error) throw error;
+    if (error) {
+      console.error('Insert error:', error)
+      return NextResponse.json(
+        { error: 'Failed to create post', details: error.message },
+        { status: 500 }
+      )
+    }
     
     return NextResponse.json(data[0]);
   } catch (error) {
-    console.error('Error creating blog post:', error);
-    return NextResponse.json({ error: 'Error interno del servidor' }, { status: 500 });
+    console.error('POST error:', error);
+    return NextResponse.json(
+      { 
+        error: 'Server error', 
+        message: error instanceof Error ? error.message : 'Unknown error'
+      },
+      { status: 500 }
+    );
   }
 }
+
+// IMPORTANTE: Esto previene que la ruta se pre-renderice durante el build
+export const dynamic = 'force-dynamic'
+export const runtime = 'nodejs'

@@ -1,6 +1,6 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { supabase } from '@/lib/supabase';
+import { createClient } from '@/utils/supabase/client';
 import CampaignCard from './CampaignCard';
 
 interface Category {
@@ -51,6 +51,7 @@ export default function ActiveCampaigns() {
   useEffect(() => {
     async function fetchCampaigns() {
       try {
+        const supabase = createClient();
         const { data, error } = await supabase
           .from('programs')
           .select(`

@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { usePrograms } from '@/hooks/usePrograms';
-import { supabase } from '@/lib/supabase';
+import { createClient } from '@/utils/supabase/client';
 import ProgramList from '@/components/admin/ProgramList';
 import ProgramForm from '@/components/admin/ProgramForm';
 import Modal from '@/components/ui/Modal';
@@ -18,6 +18,7 @@ export default function AdminProgramsPage() {
   const handleCreateProgram = async (formData: any) => {
     setSubmitting(true);
     try {
+      const supabase = createClient();
       const { error } = await supabase
         .from('programs')
         .insert([formData]);
@@ -40,6 +41,7 @@ export default function AdminProgramsPage() {
     
     setSubmitting(true);
     try {
+      const supabase = createClient();
       const { error } = await supabase
         .from('programs')
         .update(formData)
@@ -64,6 +66,7 @@ export default function AdminProgramsPage() {
     }
 
     try {
+      const supabase = createClient();
       const { error } = await supabase
         .from('programs')
         .delete()

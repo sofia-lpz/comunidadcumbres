@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { supabase } from '@/lib/supabase';
+import { createClient } from '@/utils/supabase/client';
 import ProgramForm from '@/components/admin/ProgramForm';
 
 export default function CreateProgramPage() {
@@ -11,6 +11,7 @@ export default function CreateProgramPage() {
   const handleSubmit = async (formData: any) => {
     setSubmitting(true);
     try {
+      const supabase = createClient();
       const { error } = await supabase
         .from('programs')
         .insert([formData]);

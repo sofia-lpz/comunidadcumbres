@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { supabase } from '@/lib/supabase';
+import { createClient } from '@/utils/supabase/client';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -21,6 +21,7 @@ export default function BlogPage() {
   useEffect(() => {
     async function fetchPosts() {
       try {
+        const supabase = createClient();
         const { data, error } = await supabase
           .from('blog_posts')
           .select('*')
