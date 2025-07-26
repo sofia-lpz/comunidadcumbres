@@ -16,8 +16,8 @@ function createSupabaseClient() {
 
 export async function GET(request) {
   try {
-    // Verificar si estamos en build time
-    const isBuildTime = !process.env.VERCEL_URL && process.env.NODE_ENV === 'production'
+    // Detectar build time de manera agnóstica a la plataforma
+    const isBuildTime = process.env.NODE_ENV === 'production' && !process.env.DATABASE_URL && !process.env.SUPABASE_URL
     
     if (isBuildTime) {
       return NextResponse.json({ authenticated: false }, { status: 503 })

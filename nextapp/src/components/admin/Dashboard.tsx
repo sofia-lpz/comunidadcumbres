@@ -130,7 +130,7 @@ export default function Dashboard({ stats }: DashboardProps) {
           </div>
           <div>
             <p className="font-medium">Tecnología:</p>
-            <p className="text-blue-200">Next.js + Supabase + Vercel</p>
+            <p className="text-blue-200">Next.js + Supabase + AWS Amplify</p>
           </div>
         </div>
       </div>

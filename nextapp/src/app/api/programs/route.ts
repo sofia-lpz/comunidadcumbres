@@ -4,7 +4,8 @@ import { NextRequest, NextResponse } from 'next/server'
 export async function GET(request: NextRequest) {
   try {
     const supabase = await createClient();
-    const isBuildTime = !process.env.VERCEL_URL && process.env.NODE_ENV === 'production'
+    // Detectar build time de manera agnóstica a la plataforma
+    const isBuildTime = process.env.NODE_ENV === 'production' && !process.env.DATABASE_URL && !process.env.SUPABASE_URL
     
     if (isBuildTime) {
       console.log('Build time detected, returning empty programs')
@@ -47,7 +48,8 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const isBuildTime = !process.env.VERCEL_URL && process.env.NODE_ENV === 'production'
+    // Detectar build time de manera agnóstica a la plataforma
+    const isBuildTime = process.env.NODE_ENV === 'production' && !process.env.DATABASE_URL && !process.env.SUPABASE_URL
     
     if (isBuildTime) {
       return NextResponse.json({ error: 'Not available during build' }, { status: 503 })
@@ -101,7 +103,8 @@ export async function POST(request: NextRequest) {
 
 export async function PUT(request: NextRequest) {
   try {
-    const isBuildTime = !process.env.VERCEL_URL && process.env.NODE_ENV === 'production'
+    // Detectar build time de manera agnóstica a la plataforma
+    const isBuildTime = process.env.NODE_ENV === 'production' && !process.env.DATABASE_URL && !process.env.SUPABASE_URL
     
     if (isBuildTime) {
       return NextResponse.json({ error: 'Not available during build' }, { status: 503 })
@@ -165,7 +168,8 @@ export async function PUT(request: NextRequest) {
 
 export async function DELETE(request: NextRequest) {
   try {
-    const isBuildTime = !process.env.VERCEL_URL && process.env.NODE_ENV === 'production'
+    // Detectar build time de manera agnóstica a la plataforma
+    const isBuildTime = process.env.NODE_ENV === 'production' && !process.env.DATABASE_URL && !process.env.SUPABASE_URL
     
     if (isBuildTime) {
       return NextResponse.json({ error: 'Not available during build' }, { status: 503 })
