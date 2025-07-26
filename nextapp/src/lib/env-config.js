@@ -1,19 +1,15 @@
-// Configuración para manejo de variables de entorno optimizada para Vercel + Supabase
-async function loadVercelSecrets() {
-  // Solo en servidor - Vercel automáticamente expone las variables de entorno
+// Configuración para manejo de variables de entorno optimizada para deployment + Supabase
+async function loadServerSecrets() {
+  // Solo en servidor - Las plataformas de deployment automáticamente exponen las variables de entorno
   if (typeof window === 'undefined') {
     try {
-      // En Vercel, las variables de entorno se exponen directamente
-      const hasVercelEnv = process.env.VERCEL || process.env.VERCEL_ENV;
-      
-      if (hasVercelEnv) {
-        return {
-          supabaseUrl: process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL,
-          supabaseKey: process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-        };
-      }
+      // Variables de entorno de servidor/deployment platform
+      return {
+        supabaseUrl: process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL,
+        supabaseKey: process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+      };
     } catch (error) {
-      console.warn('Vercel environment variables not available, falling back to standard env vars');
+      console.warn('Server environment variables not available, falling back to standard env vars');
     }
   }
   return null;
@@ -31,12 +27,12 @@ export async function getEnvConfig() {
     isClient
   };
 
-  // En servidor de producción, intentar cargar desde Vercel secrets primero
+  // En servidor de producción, intentar cargar desde variables de servidor primero
   if (!isClient && isProduction) {
-    const vercelSecrets = await loadVercelSecrets();
-    if (vercelSecrets) {
-      config.supabaseUrl = vercelSecrets.supabaseUrl;
-      config.supabaseKey = vercelSecrets.supabaseKey;
+    const serverSecrets = await loadServerSecrets();
+    if (serverSecrets) {
+      config.supabaseUrl = serverSecrets.supabaseUrl;
+      config.supabaseKey = serverSecrets.supabaseKey;
     }
   }
   
@@ -60,8 +56,6 @@ export async function getEnvConfig() {
         NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ? 'SET' : 'NOT SET',
         SUPABASE_URL: process.env.SUPABASE_URL ? 'SET' : 'NOT SET',
         SUPABASE_ANON_KEY: process.env.SUPABASE_ANON_KEY ? 'SET' : 'NOT SET',
-        VERCEL: process.env.VERCEL ? 'SET' : 'NOT SET',
-        VERCEL_ENV: process.env.VERCEL_ENV || 'NOT SET',
         NODE_ENV: config.nodeEnv
       }
     };

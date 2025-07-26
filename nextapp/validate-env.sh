@@ -35,7 +35,7 @@ if [ "$all_good" = false ]; then
     echo "  - NEXT_PUBLIC_SUPABASE_URL"
     echo "  - NEXT_PUBLIC_SUPABASE_ANON_KEY"
     echo ""
-    echo "En Vercel, ve a Settings > Environment Variables"
+    echo "En AWS Amplify, ve a App settings > Environment variables"
     echo "En desarrollo local, crea un archivo .env.local"
     exit 1
 fi

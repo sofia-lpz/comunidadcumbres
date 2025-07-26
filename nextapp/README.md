@@ -48,11 +48,11 @@ Abre [http://localhost:3000](http://localhost:3000) en tu navegador.
 - `npm run verify` - Verificar conexión con la base de datos
 - `npm run validate-env` - Validar variables de entorno
 
-## 🚀 Deployment en Vercel
+## 🚀 Deployment en AWS Amplify
 
 ### Variables de Entorno Requeridas
 
-En Vercel Dashboard > Settings > Environment Variables, configura:
+En AWS Amplify Console > App settings > Environment variables, configura:
 
 ```
 NEXT_PUBLIC_SUPABASE_URL=https://tu-proyecto.supabase.co
@@ -69,12 +69,10 @@ npm run build
 
 Si experimentas errores durante el deployment:
 
-1. ✅ **Variables de entorno configuradas**: Asegúrate de que las variables estén en Vercel
+1. ✅ **Variables de entorno configuradas**: Asegúrate de que las variables estén en AWS Amplify
 2. ✅ **Build mejorado**: Usamos importación dinámica para evitar errores durante el build
 3. ✅ **Validación pre-build**: El sistema valida la configuración antes del build
 4. ✅ **Manejo de errores robusto**: APIs con mejor manejo de errores de conexión
-
-Ver `DEPLOYMENT.md` para más detalles sobre la solución implementada.
 
 ## 📁 Estructura del Proyecto
 
@@ -108,21 +106,21 @@ La aplicación utiliza Supabase como backend con las siguientes tablas principal
 - ✅ **Responsive Design**: Diseño adaptable con Tailwind CSS
 - ✅ **TypeScript**: Tipado estático para mejor desarrollo
 - ✅ **Error Handling**: Manejo robusto de errores
-- ✅ **Production Ready**: Optimizado para producción en Vercel
+- ✅ **Production Ready**: Optimizado para producción en AWS Amplify
 
 ## 🐛 Troubleshooting
 
 ### Error: "Missing Supabase environment variables"
 
 1. Verifica que `.env.local` existe y tiene las variables correctas
-2. En Vercel, configura las variables en Settings > Environment Variables
+2. En AWS Amplify, configura las variables en App settings > Environment variables
 3. Ejecuta `npm run validate-env` para verificar
 
 ### Problemas de Build
 
 1. Ejecuta `npm run validate-env` localmente
 2. Verifica que no hay errores de sintaxis en las APIs
-3. Revisa los logs de build en Vercel
+3. Revisa los logs de build en AWS Amplify Console
 
 ### Conexión a Supabase
 
@@ -141,4 +139,4 @@ Este proyecto es parte de Comunidad Cumbres.
 - [Next.js Documentation](https://nextjs.org/docs) - Documentación oficial de Next.js
 - [Supabase Documentation](https://supabase.com/docs) - Documentación de Supabase
 - [Tailwind CSS](https://tailwindcss.com/docs) - Framework CSS utilizado
-- [Vercel Platform](https://vercel.com) - Plataforma de deployment
+- [AWS Amplify](https://aws.amazon.com/amplify/) - Plataforma de deployment
