@@ -1,6 +1,6 @@
 "use client";
-import { useEffect, useState } from "react";
-import { createClient } from '@/utils/supabase/client';
+// import { useEffect, useState } from "react";
+// import { createClient } from '@/utils/supabase/client';
 import Image from "next/image";
 import Link from "next/link";
 
@@ -17,26 +17,61 @@ interface BlogPost {
   created_at: string;
 }
 
+// Datos estáticos de ejemplo para el blog
+const staticBlogPosts: BlogPost[] = [
+  {
+    id: "1",
+    title: "Proyecto de Reforestación en Comunidad",
+    content: "Hemos iniciado un ambicioso proyecto de reforestación que busca recuperar áreas verdes en nuestra comunidad. Este proyecto incluye la plantación de árboles nativos, talleres de educación ambiental y la participación activa de voluntarios locales.",
+    image_urls: ["/images/hero-carousel/ProyectoReforestacion.jpg"],
+    published: true,
+    published_at: "2024-07-15",
+    created_at: "2024-07-15"
+  },
+  {
+    id: "2",
+    title: "Donación de Útiles Escolares",
+    content: "Gracias a la generosidad de nuestra comunidad, hemos logrado reunir y distribuir útiles escolares para más de 200 niños en situación de vulnerabilidad. Esta iniciativa busca garantizar que todos los niños tengan acceso a las herramientas necesarias para su educación.",
+    image_urls: ["/images/hero-carousel/ProyectoUtilesEscolares.jpg"],
+    published: true,
+    published_at: "2024-07-10",
+    created_at: "2024-07-10"
+  },
+  {
+    id: "3",
+    title: "Nueva Cancha de Básquet para Jóvenes",
+    content: "Con gran emoción anunciamos la inauguración de nuestra nueva cancha de básquet. Este espacio deportivo será un lugar de encuentro para jóvenes de la comunidad, promoviendo el deporte y la sana convivencia.",
+    image_urls: ["/images/hero-carousel/ProyectoCanchaBasket.jpg"],
+    published: true,
+    published_at: "2024-07-05",
+    created_at: "2024-07-05"
+  }
+];
+
 function BlogPreviewSection() {
-  const [posts, setPosts] = useState<BlogPost[]>([]);
-  const [loading, setLoading] = useState(true);
+  // const [posts, setPosts] = useState<BlogPost[]>([]);
+  // const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    async function fetchPosts() {
-      const supabase = createClient();
-      const { data, error } = await supabase
-        .from("blog_posts")
-        .select("*")
-        .eq("published", true)
-        .order("published_at", { ascending: false })
-        .limit(3);
+  // useEffect(() => {
+  //   async function fetchPosts() {
+  //     const supabase = createClient();
+  //     const { data, error } = await supabase
+  //       .from("blog_posts")
+  //       .select("*")
+  //       .eq("published", true)
+  //       .order("published_at", { ascending: false })
+  //       .limit(3);
 
-      if (!error && data) setPosts(data);
-      setLoading(false);
-    }
+  //     if (!error && data) setPosts(data);
+  //     setLoading(false);
+  //   }
 
-    fetchPosts();
-  }, []);
+  //   fetchPosts();
+  // }, []);
+
+  // Usar datos estáticos en lugar de la base de datos
+  const posts = staticBlogPosts;
+  const loading = false;
 
   const formatDate = (dateString: string) =>
     new Date(dateString).toLocaleDateString("es-ES", {

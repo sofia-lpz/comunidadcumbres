@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { createClient } from '@/utils/supabase/client';
+// import { createClient } from '@/utils/supabase/client';
 import Button from '@/components/ui/Button';
 
 interface BlogPost {
@@ -13,71 +13,114 @@ interface BlogPost {
   created_at: string;
 }
 
+// Datos estáticos para el blog
+const staticBlogPosts: BlogPost[] = [
+  {
+    id: '1',
+    title: 'Proyecto de Reforestación en Comunidad',
+    content: 'Hemos iniciado un ambicioso proyecto de reforestación que busca recuperar áreas verdes en nuestra comunidad. Este proyecto incluye la plantación de árboles nativos, talleres de educación ambiental y la participación activa de voluntarios locales.',
+    image_urls: ['/images/hero-carousel/ProyectoReforestacion.jpg'],
+    published: true,
+    published_at: '2024-07-15T00:00:00Z',
+    created_at: '2024-07-15T00:00:00Z'
+  },
+  {
+    id: '2',
+    title: 'Donación de Útiles Escolares',
+    content: 'Gracias a la generosidad de nuestra comunidad, hemos logrado reunir y distribuir útiles escolares para más de 200 niños en situación de vulnerabilidad. Esta iniciativa busca garantizar que todos los niños tengan acceso a las herramientas necesarias para su educación.',
+    image_urls: ['/images/hero-carousel/ProyectoUtilesEscolares.jpg'],
+    published: true,
+    published_at: '2024-07-10T00:00:00Z',
+    created_at: '2024-07-10T00:00:00Z'
+  },
+  {
+    id: '3',
+    title: 'Nueva Cancha de Básquet para Jóvenes',
+    content: 'Con gran emoción anunciamos la inauguración de nuestra nueva cancha de básquet. Este espacio deportivo será un lugar de encuentro para jóvenes de la comunidad, promoviendo el deporte y la sana convivencia.',
+    image_urls: ['/images/hero-carousel/ProyectoCanchaBasket.jpg'],
+    published: true,
+    published_at: '2024-07-05T00:00:00Z',
+    created_at: '2024-07-05T00:00:00Z'
+  }
+];
+
 export default function BlogPage() {
-  const [posts, setPosts] = useState<BlogPost[]>([]);
-  const [loading, setLoading] = useState(true);
+  // const [posts, setPosts] = useState<BlogPost[]>([]);
+  // const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    async function fetchPosts() {
-      try {
-        const supabase = createClient();
-        const { data, error } = await supabase
-          .from('blog_posts')
-          .select('*')
-          .order('created_at', { ascending: false });
+  // useEffect(() => {
+  //   async function fetchPosts() {
+  //     try {
+  //       const supabase = createClient();
+  //       const { data, error } = await supabase
+  //         .from('blog_posts')
+  //         .select('*')
+  //         .order('created_at', { ascending: false });
         
-        if (error) throw error;
-        setPosts(data || []);
-      } catch (error) {
-        console.error('Error fetching posts:', error);
-      } finally {
-        setLoading(false);
-      }
-    }
+  //       if (error) throw error;
+  //       setPosts(data || []);
+  //     } catch (error) {
+  //       console.error('Error fetching posts:', error);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   }
 
-    fetchPosts();
-  }, []);
+  //   fetchPosts();
+  // }, []);
+
+  // Usar datos estáticos
+  const posts = staticBlogPosts;
+  const loading = false;
 
   const handleDeletePost = async (id: string) => {
     if (confirm('¿Estás seguro de que quieres eliminar este post?')) {
-      try {
-        const supabase = createClient();
-        const { error } = await supabase
-          .from('blog_posts')
-          .delete()
-          .eq('id', id);
+      // Funcionalidad deshabilitada en modo estático
+      alert('Funcionalidad de eliminación deshabilitada en modo estático');
+      
+      // try {
+      //   const supabase = createClient();
+      //   const { error } = await supabase
+      //     .from('blog_posts')
+      //     .delete()
+      //     .eq('id', id);
         
-        if (error) throw error;
-        setPosts(posts.filter(post => post.id !== id));
-      } catch (error) {
-        console.error('Error deleting post:', error);
-        alert('Error al eliminar el post');
-      }
+      //   if (error) throw error;
+      
+      // Remover del array local para simular eliminación
+      // setPosts(posts.filter(post => post.id !== id));
+      // } catch (error) {
+      //   console.error('Error deleting post:', error);
+      //   alert('Error al eliminar el post');
+      // }
     }
   };
 
   const togglePublished = async (post: BlogPost) => {
-    try {
-      const supabase = createClient();
-      const { error } = await supabase
-        .from('blog_posts')
-        .update({ 
-          published: !post.published,
-          published_at: !post.published ? new Date().toISOString() : null
-        })
-        .eq('id', post.id);
+    // Funcionalidad deshabilitada en modo estático
+    alert('Funcionalidad de publicación deshabilitada en modo estático');
+    
+    // try {
+    //   const supabase = createClient();
+    //   const { error } = await supabase
+    //     .from('blog_posts')
+    //     .update({ 
+    //       published: !post.published,
+    //       published_at: !post.published ? new Date().toISOString() : null
+    //     })
+    //     .eq('id', post.id);
       
-      if (error) throw error;
+    //   if (error) throw error;
       
-      setPosts(posts.map(p => 
-        p.id === post.id 
-          ? { ...p, published: !p.published, published_at: !p.published ? new Date().toISOString() : null }
-          : p
-      ));
-    } catch (error) {
-      console.error('Error updating post:', error);
-      alert('Error al actualizar el post');
-    }
+    //   setPosts(posts.map(p => 
+    //     p.id === post.id 
+    //       ? { ...p, published: !p.published, published_at: !p.published ? new Date().toISOString() : null }
+    //       : p
+    //   ));
+    // } catch (error) {
+    //   console.error('Error updating post:', error);
+    //   alert('Error al actualizar el post');
+    // }
   };
 
   if (loading) {

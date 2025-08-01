@@ -9,7 +9,10 @@
     "start": "next start",
     "lint": "next lint",
     "verify": "node verify-connection.js",
-    "validate-env": "node validate-env.js"
+    "validate-env": "node validate-env.js",
+    "sandbox": "npx ampx sandbox",
+    "sandbox:delete": "npx ampx sandbox delete",
+    "generate:outputs": "npx ampx generate outputs --app-id <your-app-id> --branch main --out-dir ."
   },
   "dependencies": {
     "@supabase/ssr": "^0.6.1",

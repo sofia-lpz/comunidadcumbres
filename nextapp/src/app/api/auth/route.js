@@ -1,4 +1,23 @@
+// Comentado temporalmente para build estático
+// import { createClient } from '@supabase/supabase-js'
+import { NextResponse } from 'next/server';
 
+export async function GET(request) {
+  // Retorna estado no autenticado temporalmente
+  return NextResponse.json({ authenticated: false }, { status: 503 });
+}
+
+export async function POST(request) {
+  // Retorna error temporalmente
+  return NextResponse.json({ error: 'Authentication temporarily disabled for static build' }, { status: 503 });
+}
+
+// IMPORTANTE: Esto previene que la ruta se pre-renderice durante el build
+export const dynamic = 'force-dynamic'
+export const runtime = 'nodejs'
+
+// TODO: Descomentar cuando se reactive la conexión a base de datos
+/*
 import { createClient } from '@supabase/supabase-js'
 import { NextResponse } from 'next/server';
 
@@ -30,7 +49,7 @@ export async function GET(request) {
     // Verificar si el token es válido
     const { data, error } = await supabase.auth.getUser(token);
     
-    if (error || !data?.user) {
+    if (error || !data.user) {
       return NextResponse.json({ authenticated: false }, { status: 401 });
     }
     
@@ -46,7 +65,4 @@ export async function GET(request) {
     return NextResponse.json({ authenticated: false }, { status: 500 });
   }
 }
-
-// IMPORTANTE: Esto previene que la ruta se pre-renderice durante el build
-export const dynamic = 'force-dynamic'
-export const runtime = 'nodejs'
+*/

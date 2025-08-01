@@ -1,7 +1,14 @@
-import { createServerClient } from '@supabase/ssr'
+// import { createServerClient } from '@supabase/ssr'
 import { type NextRequest, NextResponse } from 'next/server'
 
 export async function updateSession(request: NextRequest) {
+  // En modo estático, simplemente continuar sin autenticación
+  return NextResponse.next({
+    request,
+  });
+
+  // TODO: Descomentar cuando se reactive la conexión a base de datos
+  /*
   let supabaseResponse = NextResponse.next({
     request,
   })
@@ -48,6 +55,7 @@ export async function updateSession(request: NextRequest) {
 
   // IMPORTANT: You *must* return the supabaseResponse object as it is. If you're
   // creating a new response object with NextResponse.next() make sure to:
+  // creating a new response object with NextResponse.next() make sure to:
   // 1. Pass the request in it, like so:
   //    const myNewResponse = NextResponse.next({ request })
   // 2. Copy over the cookies, like so:
@@ -55,4 +63,5 @@ export async function updateSession(request: NextRequest) {
   // 3. Change the myNewResponse object instead of the supabaseResponse object
 
   return supabaseResponse
+  */
 }

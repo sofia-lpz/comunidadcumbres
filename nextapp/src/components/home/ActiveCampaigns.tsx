@@ -1,6 +1,7 @@
 'use client';
-import React, { useEffect, useState } from 'react';
-import { createClient } from '@/utils/supabase/client';
+import React from 'react';
+// import { useEffect, useState } from 'react';
+// import { createClient } from '@/utils/supabase/client';
 import CampaignCard from './CampaignCard';
 
 interface Category {
@@ -44,73 +45,165 @@ interface Campaign {
   requirements?: string;
 }
 
+// Datos estáticos de ejemplo para programas
+const staticCampaigns: Campaign[] = [
+  {
+    id: '1',
+    title: 'Apoyo Educativo',
+    description: 'Programa de becas y útiles escolares para estudiantes de escasos recursos',
+    full_description: 'Nuestro programa de apoyo educativo brinda becas escolares, útiles y materiales educativos a niños y jóvenes en situación de vulnerabilidad económica.',
+    image: '/images/hero-carousel/ProyectoUtilesEscolares.jpg',
+    status: 'active',
+    href: '/programas/apoyo-educativo',
+    category: 'Educación',
+    categoryColor: '#4F46E5',
+    target_audience: 'Niños y jóvenes de 6 a 18 años',
+    featured: true,
+    created_at: '2024-01-15T00:00:00Z'
+  },
+  {
+    id: '2',
+    title: 'Programa de Salud Comunitaria',
+    description: 'Atención médica básica y campañas de prevención para la comunidad',
+    full_description: 'Ofrecemos servicios de salud básica, chequeos médicos gratuitos y campañas de prevención de enfermedades.',
+    image: '/images/default-program.svg',
+    status: 'active',
+    href: '/programas/salud',
+    category: 'Salud',
+    categoryColor: '#10B981',
+    target_audience: 'Toda la comunidad',
+    featured: true,
+    created_at: '2024-02-01T00:00:00Z'
+  },
+  {
+    id: '3',
+    title: 'Actividades Culturales',
+    description: 'Talleres de arte, música y actividades culturales para todas las edades',
+    full_description: 'Promovemos el desarrollo cultural a través de talleres de arte, música, danza y otras actividades culturales.',
+    image: '/images/default-program.svg',
+    status: 'active',
+    href: '/programas/culturales',
+    category: 'Cultura',
+    categoryColor: '#F59E0B',
+    target_audience: 'Niños, jóvenes y adultos',
+    featured: false,
+    created_at: '2024-03-01T00:00:00Z'
+  },
+  {
+    id: '4',
+    title: 'Proyecto de Infraestructura',
+    description: 'Mejoramiento de espacios comunitarios y construcción de infraestructura básica',
+    full_description: 'Trabajamos en la mejora de espacios públicos, construcción de canchas deportivas y otros proyectos de infraestructura.',
+    image: '/images/hero-carousel/ProyectoCanchaBasket.jpg',
+    status: 'active',
+    href: '/programas/infraestructura',
+    category: 'Infraestructura',
+    categoryColor: '#8B5CF6',
+    target_audience: 'Toda la comunidad',
+    featured: true,
+    created_at: '2024-04-01T00:00:00Z'
+  },
+  {
+    id: '5',
+    title: 'Reforestación y Medio Ambiente',
+    description: 'Proyectos de reforestación y cuidado del medio ambiente',
+    full_description: 'Desarrollamos proyectos de reforestación, limpieza de espacios naturales y educación ambiental.',
+    image: '/images/hero-carousel/ProyectoReforestacion.jpg',
+    status: 'active',
+    href: '/programas/reforestacion',
+    category: 'Medio Ambiente',
+    categoryColor: '#059669',
+    target_audience: 'Voluntarios y comunidad en general',
+    featured: true,
+    created_at: '2024-05-01T00:00:00Z'
+  },
+  {
+    id: '6',
+    title: 'Voluntariado Comunitario',
+    description: 'Programa de voluntariado para apoyar diversas causas sociales',
+    full_description: 'Únete a nuestro programa de voluntariado y contribuye al desarrollo de tu comunidad.',
+    image: '/images/default-program.svg',
+    status: 'active',
+    href: '/programas/voluntariado',
+    category: 'Voluntariado',
+    categoryColor: '#DC2626',
+    target_audience: 'Jóvenes y adultos',
+    featured: false,
+    created_at: '2024-06-01T00:00:00Z'
+  }
+];
+
 export default function ActiveCampaigns() {
-  const [campaigns, setCampaigns] = useState<Campaign[]>([]);
-  const [loading, setLoading] = useState(true);
+  // const [campaigns, setCampaigns] = useState<Campaign[]>([]);
+  // const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    async function fetchCampaigns() {
-      try {
-        const supabase = createClient();
-        const { data, error } = await supabase
-          .from('programs')
-          .select(`
-            *,
-            categories (
-              name,
-              slug,
-              color,
-              icon
-            )
-          `)
-          .eq('status', 'active')
-          .order('created_at', { ascending: false })
-          .limit(6);
+  // useEffect(() => {
+  //   async function fetchCampaigns() {
+  //     try {
+  //       const supabase = createClient();
+  //       const { data, error } = await supabase
+  //         .from('programs')
+  //         .select(`
+  //           *,
+  //           categories (
+  //             name,
+  //             slug,
+  //             color,
+  //             icon
+  //           )
+  //         `)
+  //         .eq('status', 'active')
+  //         .order('created_at', { ascending: false })
+  //         .limit(6);
 
-        if (error) throw error;
+  //       if (error) throw error;
 
-        // Transformar los datos para que coincidan con el formato esperado
-        const transformedData: Campaign[] = (data as Program[]).map(program => ({
-          id: program.id,
-          title: program.title,
-          description: program.short_description,
-          full_description: program.full_description,
-          image: program.image_url || "/images/default-program.svg",
-          status: program.status,
-          href: `/programas/${program.id}`,
-          category: program.categories?.name,
-          categoryColor: program.categories?.color,
-          target_audience: program.target_audience,
-          external_form_url: program.external_form_url,
-          featured: program.featured,
-          created_at: program.created_at,
-          updated_at: program.updated_at,
-          requirements: program.requirements
-        }));
+  //       // Transformar los datos para que coincidan con el formato esperado
+  //       const transformedData: Campaign[] = (data as Program[]).map(program => ({
+  //         id: program.id,
+  //         title: program.title,
+  //         description: program.short_description,
+  //         full_description: program.full_description,
+  //         image: program.image_url || "/images/default-program.svg",
+  //         status: program.status,
+  //         href: `/programas/${program.id}`,
+  //         category: program.categories?.name,
+  //         categoryColor: program.categories?.color,
+  //         target_audience: program.target_audience,
+  //         external_form_url: program.external_form_url,
+  //         featured: program.featured,
+  //         created_at: program.created_at,
+  //         updated_at: program.updated_at,
+  //         requirements: program.requirements
+  //       }));
 
-        setCampaigns(transformedData);
-      } catch (error) {
-        console.error('Error fetching campaigns:', error);
-        // En caso de error, mostrar datos de ejemplo
-        setCampaigns([
-          {
-            id: 'fallback-1',
-            title: "Cargando programas...",
-            description: "Los programas se están cargando desde la base de datos.",
-            image: "/images/default-program.svg",
-            status: "active",
-            href: "/programas",
-            featured: false,
-            created_at: new Date().toISOString()
-          }
-        ]);
-      } finally {
-        setLoading(false);
-      }
-    }
+  //       setCampaigns(transformedData);
+  //     } catch (error) {
+  //       console.error('Error fetching campaigns:', error);
+  //       // En caso de error, mostrar datos de ejemplo
+  //       setCampaigns([
+  //         {
+  //           id: 'fallback-1',
+  //           title: "Cargando programas...",
+  //           description: "Los programas se están cargando desde la base de datos.",
+  //           image: "/images/default-program.svg",
+  //           status: "active",
+  //           href: "/programas",
+  //           featured: false,
+  //           created_at: new Date().toISOString()
+  //         }
+  //       ]);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   }
 
-    fetchCampaigns();
-  }, []);
+  //   fetchCampaigns();
+  // }, []);
+
+  // Usar datos estáticos en lugar de la base de datos
+  const campaigns = staticCampaigns;
+  const loading = false;
 
   if (loading) {
     return (

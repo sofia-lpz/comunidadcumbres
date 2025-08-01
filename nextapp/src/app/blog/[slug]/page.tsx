@@ -1,7 +1,7 @@
 'use client';
-import { useEffect, useState } from 'react';
+// import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import { createClient } from '@/utils/supabase/client';
+// import { createClient } from '@/utils/supabase/client';
 import Image from 'next/image';
 
 interface BlogPost {
@@ -14,35 +14,70 @@ interface BlogPost {
   created_at: string;
 }
 
+// Datos estáticos para posts individuales
+const staticBlogPosts: { [key: string]: BlogPost } = {
+  '1': {
+    id: '1',
+    title: 'Proyecto de Reforestación en Comunidad',
+    content: 'Hemos iniciado un ambicioso proyecto de reforestación que busca recuperar áreas verdes en nuestra comunidad. Este proyecto incluye la plantación de árboles nativos, talleres de educación ambiental y la participación activa de voluntarios locales.\n\nEl proyecto comenzó hace tres meses con una evaluación exhaustiva de las áreas que requerían reforestación. Identificamos zonas que habían sufrido deforestación debido a diversos factores ambientales y humanos.\n\nHasta la fecha, hemos logrado plantar más de 500 árboles de especies nativas como encinos, pinos y cedros. Cada árbol plantado representa la esperanza de un futuro más verde para nuestra comunidad.\n\nAdemás de la plantación, hemos implementado talleres educativos para niños y jóvenes, enseñándoles sobre la importancia de cuidar el medio ambiente y cómo pueden contribuir a la conservación de los recursos naturales.',
+    image_urls: ['/images/hero-carousel/ProyectoReforestacion.jpg'],
+    published: true,
+    published_at: '2024-07-15T00:00:00Z',
+    created_at: '2024-07-15T00:00:00Z'
+  },
+  '2': {
+    id: '2',
+    title: 'Donación de Útiles Escolares',
+    content: 'Gracias a la generosidad de nuestra comunidad, hemos logrado reunir y distribuir útiles escolares para más de 200 niños en situación de vulnerabilidad. Esta iniciativa busca garantizar que todos los niños tengan acceso a las herramientas necesarias para su educación.\n\nLa campaña de recolección duró dos meses, durante los cuales recibimos donaciones de cuadernos, lápices, colores, mochilas y otros materiales escolares esenciales.\n\nLa distribución se realizó en coordinación con las escuelas locales, asegurándonos de que los útiles llegaran directamente a los estudiantes que más los necesitaban.\n\nEsta iniciativa no solo proporciona herramientas educativas, sino que también envía un mensaje de apoyo y esperanza a las familias de nuestra comunidad.',
+    image_urls: ['/images/hero-carousel/ProyectoUtilesEscolares.jpg'],
+    published: true,
+    published_at: '2024-07-10T00:00:00Z',
+    created_at: '2024-07-10T00:00:00Z'
+  },
+  '3': {
+    id: '3',
+    title: 'Nueva Cancha de Básquet para Jóvenes',
+    content: 'Con gran emoción anunciamos la inauguración de nuestra nueva cancha de básquet. Este espacio deportivo será un lugar de encuentro para jóvenes de la comunidad, promoviendo el deporte y la sana convivencia.\n\nEl proyecto se realizó gracias al apoyo incondicional de voluntarios y las generosas donaciones de la comunidad. Durante seis meses, trabajamos incansablemente para construir esta infraestructura deportiva.\n\nLa cancha no solo servirá para la práctica del básquetbol, sino que también será utilizada para otros deportes y actividades comunitarias. Hemos programado torneos mensuales y clases de entrenamiento gratuitas para jóvenes de todas las edades.\n\nEste proyecto representa nuestro compromiso con el desarrollo integral de los jóvenes de la comunidad, proporcionándoles un espacio seguro y saludable para su crecimiento personal y social.',
+    image_urls: ['/images/hero-carousel/ProyectoCanchaBasket.jpg'],
+    published: true,
+    published_at: '2024-07-05T00:00:00Z',
+    created_at: '2024-07-05T00:00:00Z'
+  }
+};
+
 export default function BlogPostPage() {
   const params = useParams();
-  const [post, setPost] = useState<BlogPost | null>(null);
-  const [loading, setLoading] = useState(true);
+  // const [post, setPost] = useState<BlogPost | null>(null);
+  // const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    async function fetchPost() {
-      try {
-        const supabase = createClient();
-        const { data, error } = await supabase
-          .from('blog_posts')
-          .select('*')
-          .eq('id', params.slug)
-          .eq('published', true)
-          .single();
+  // useEffect(() => {
+  //   async function fetchPost() {
+  //     try {
+  //       const supabase = createClient();
+  //       const { data, error } = await supabase
+  //         .from('blog_posts')
+  //         .select('*')
+  //         .eq('id', params.slug)
+  //         .eq('published', true)
+  //         .single();
         
-        if (error) throw error;
-        setPost(data);
-      } catch (error) {
-        console.error('Error fetching post:', error);
-      } finally {
-        setLoading(false);
-      }
-    }
+  //       if (error) throw error;
+  //       setPost(data);
+  //     } catch (error) {
+  //       console.error('Error fetching post:', error);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   }
 
-    if (params.slug) {
-      fetchPost();
-    }
-  }, [params.slug]);
+  //   if (params.slug) {
+  //     fetchPost();
+  //   }
+  // }, [params.slug]);
+
+  // Usar datos estáticos
+  const post = staticBlogPosts[params.slug as string] || null;
+  const loading = false;
 
   if (loading) {
     return (

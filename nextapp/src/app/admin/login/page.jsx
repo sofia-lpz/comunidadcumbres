@@ -2,61 +2,62 @@
 'use client';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { createClient } from '@/utils/supabase/client';
+// import { createClient } from '@/utils/supabase/client';
 import Input from '@/components/ui/Input';
 import Button from '@/components/ui/Button';
 
 export default function AdminLogin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(null);
+  const [error, setError] = useState('Autenticación deshabilitada en modo estático');
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError(null);
+    setError('Autenticación deshabilitada temporalmente para el build estático');
     
-    try {
-      console.log('Attempting login for:', email);
+    // Comentado temporalmente para build estático
+    // try {
+    //   console.log('Attempting login for:', email);
       
-      const supabase = createClient();
-      const { data, error: authError } = await supabase.auth.signInWithPassword({
-        email: email.trim(),
-        password: password
-      });
+    //   const supabase = createClient();
+    //   const { data, error: authError } = await supabase.auth.signInWithPassword({
+    //     email: email.trim(),
+    //     password: password
+    //   });
       
-      console.log('Login response:', { data, error: authError });
+    //   console.log('Login response:', { data, error: authError });
       
-      if (authError) {
-        console.error('Auth error:', authError);
+    //   if (authError) {
+    //     console.error('Auth error:', authError);
         
-        // Manejo específico de errores
-        if (authError.message.includes('Invalid login credentials')) {
-          setError('Credenciales incorrectas. Verifica tu email y contraseña.');
-        } else if (authError.message.includes('Email not confirmed')) {
-          setError('Por favor confirma tu email antes de iniciar sesión.');
-        } else if (authError.message.includes('Too many requests')) {
-          setError('Demasiados intentos. Espera un momento antes de intentar nuevamente.');
-        } else {
-          setError(`Error de autenticación: ${authError.message}`);
-        }
-        return;
-      }
+    //     // Manejo específico de errores
+    //     if (authError.message.includes('Invalid login credentials')) {
+    //       setError('Credenciales incorrectas. Verifica tu email y contraseña.');
+    //     } else if (authError.message.includes('Email not confirmed')) {
+    //       setError('Por favor confirma tu email antes de iniciar sesión.');
+    //     } else if (authError.message.includes('Too many requests')) {
+    //       setError('Demasiados intentos. Espera un momento antes de intentar nuevamente.');
+    //     } else {
+    //       setError(`Error de autenticación: ${authError.message}`);
+    //     }
+    //     return;
+    //   }
       
-      if (data.user) {
-        console.log('Login successful, redirecting to admin...');
-        router.push('/admin');
-      } else {
-        setError('No se pudo autenticar el usuario');
-      }
-    } catch (error) {
-      console.error('Unexpected error during login:', error);
-      setError('Error inesperado. Por favor, intenta nuevamente.');
-    } finally {
+    //   if (data.user) {
+    //     console.log('Login successful, redirecting to admin...');
+    //     router.push('/admin');
+    //   } else {
+    //     setError('No se pudo autenticar el usuario');
+    //   }
+    // } catch (error) {
+    //   console.error('Unexpected error during login:', error);
+    //   setError('Error inesperado. Por favor, intenta nuevamente.');
+    // } finally {
       setLoading(false);
-    }
+    // }
   };
 
   return (
