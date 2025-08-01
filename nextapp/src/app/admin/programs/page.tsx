@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { usePrograms } from '@/hooks/usePrograms';
-import { createClient } from '@/utils/supabase/client';
+// import { createClient } from '@/utils/supabase/client';
 import ProgramList from '@/components/admin/ProgramList';
 import ProgramForm from '@/components/admin/ProgramForm';
 import Modal from '@/components/ui/Modal';
@@ -18,14 +18,18 @@ export default function AdminProgramsPage() {
   const handleCreateProgram = async (formData: any) => {
     setSubmitting(true);
     try {
-      const supabase = createClient();
-      const { error } = await supabase
-        .from('programs')
-        .insert([formData]);
-
-      if (error) throw error;
+      // Funcionalidad deshabilitada en modo estático
+      console.log('Crear programa deshabilitado en modo estático:', formData);
+      alert('Funcionalidad deshabilitada en modo estático');
       
-      await refetch();
+      // const supabase = createClient();
+      // const { error } = await supabase
+      //   .from('programs')
+      //   .insert([formData]);
+
+      // if (error) throw error;
+      
+      // await refetch();
       setIsModalOpen(false);
       setEditingProgram(null);
     } catch (error) {
@@ -41,15 +45,19 @@ export default function AdminProgramsPage() {
     
     setSubmitting(true);
     try {
-      const supabase = createClient();
-      const { error } = await supabase
-        .from('programs')
-        .update(formData)
-        .eq('id', editingProgram.id);
-
-      if (error) throw error;
+      // Funcionalidad deshabilitada en modo estático
+      console.log('Actualizar programa deshabilitado en modo estático:', formData);
+      alert('Funcionalidad deshabilitada en modo estático');
       
-      await refetch();
+      // const supabase = createClient();
+      // const { error } = await supabase
+      //   .from('programs')
+      //   .update(formData)
+      //   .eq('id', editingProgram.id);
+
+      // if (error) throw error;
+      
+      // await refetch();
       setIsModalOpen(false);
       setEditingProgram(null);
     } catch (error) {
@@ -66,15 +74,19 @@ export default function AdminProgramsPage() {
     }
 
     try {
-      const supabase = createClient();
-      const { error } = await supabase
-        .from('programs')
-        .delete()
-        .eq('id', programId);
-
-      if (error) throw error;
+      // Funcionalidad deshabilitada en modo estático
+      console.log('Eliminar programa deshabilitado en modo estático:', programId);
+      alert('Funcionalidad deshabilitada en modo estático');
       
-      await refetch();
+      // const supabase = createClient();
+      // const { error } = await supabase
+      //   .from('programs')
+      //   .delete()
+      //   .eq('id', programId);
+
+      // if (error) throw error;
+      
+      // await refetch();
     } catch (error) {
       console.error('Error deleting program:', error);
       alert('Error al eliminar el programa');
