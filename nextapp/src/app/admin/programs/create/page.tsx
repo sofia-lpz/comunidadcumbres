@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { createClient } from '@/utils/supabase/client';
+// import { createClient } from '@/utils/supabase/client';
 import ProgramForm from '@/components/admin/ProgramForm';
 
 export default function CreateProgramPage() {
@@ -11,14 +11,17 @@ export default function CreateProgramPage() {
   const handleSubmit = async (formData: any) => {
     setSubmitting(true);
     try {
-      const supabase = createClient();
-      const { error } = await supabase
-        .from('programs')
-        .insert([formData]);
-
-      if (error) throw error;
+      // Funcionalidad deshabilitada en modo estático
+      alert('Creación de programas deshabilitada en modo estático');
       
-      router.push('/admin/programs');
+      // const supabase = createClient();
+      // const { error } = await supabase
+      //   .from('programs')
+      //   .insert([formData]);
+
+      // if (error) throw error;
+      
+      // router.push('/admin/programs');
     } catch (error) {
       console.error('Error creating program:', error);
       alert('Error al crear el programa');

@@ -89,14 +89,18 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         setLoading(true);
         setError(null);
         
-        const supabase = createClient();
-        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+        // En modo estático, permitir acceso sin autenticación
+        setUser(null);
+        setAuthenticated(false);
         
-        if (sessionError) {
-          console.error('Error getting session:', sessionError);
-          setError('Error de autenticación. Por favor, intenta nuevamente.');
-          return;
-        }
+        // const supabase = createClient();
+        // const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+        
+        // if (sessionError) {
+        //   console.error('Error getting session:', sessionError);
+        //   setError('Error de autenticación. Por favor, intenta nuevamente.');
+        //   return;
+        // }
         
         setUser(session?.user || null);
 
@@ -114,24 +118,24 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
     checkSession();
 
-    // Escuchar cambios de autenticación
-    const supabase = createClient();
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, session) => {
-        console.log('Auth state change:', event, session?.user?.email);
-        setUser(session?.user || null);
+    // Escuchar cambios de autenticación - Comentado para modo estático
+    // const supabase = createClient();
+    // const { data: { subscription } } = supabase.auth.onAuthStateChange(
+    //   (event, session) => {
+    //     console.log('Auth state change:', event, session?.user?.email);
+    //     setUser(session?.user || null);
         
-        if (event === 'SIGNED_OUT') {
-          router.push('/admin/login');
-        }
+    //     if (event === 'SIGNED_OUT') {
+    //       router.push('/admin/login');
+    //     }
         
-        if (event === 'SIGNED_IN') {
-          console.log('User signed in:', session?.user?.email);
-        }
-      }
-    );
+    //     if (event === 'SIGNED_IN') {
+    //       console.log('User signed in:', session?.user?.email);
+    //     }
+    //   }
+    // );
 
-    return () => subscription.unsubscribe();
+    // return () => subscription.unsubscribe();
   }, [router, pathname]);
 
   const handleLogout = async () => {

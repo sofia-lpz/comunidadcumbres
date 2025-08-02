@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { createClient } from '@/utils/supabase/client';
+// import { createClient } from '@/utils/supabase/client';
 import Input from '@/components/ui/Input';
 import Textarea from '@/components/ui/Textarea';
 import Button from '@/components/ui/Button';
@@ -63,34 +63,40 @@ export default function CreateBlogPost() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setError(null);
+    setError('Funcionalidad deshabilitada en modo estático');
 
-    try {
-      // Filter out empty image URLs
-      const filteredImageUrls = formData.image_urls.filter(url => url.trim() !== '');
-      
-      const postData = {
-        title: formData.title,
-        content: formData.content,
-        image_urls: filteredImageUrls,
-        published: formData.published,
-        published_at: formData.published ? new Date().toISOString() : null
-      };
-
-      const supabase = createClient();
-      const { data, error } = await supabase
-        .from('blog_posts')
-        .insert([postData]);
-
-      if (error) throw error;
-
-      router.push('/admin/blog');
-    } catch (error) {
-      console.error('Error creating post:', error);
-      setError('Error al crear el post');
-    } finally {
+    // En modo estático, solo mostrar mensaje y redirigir
+    setTimeout(() => {
       setLoading(false);
-    }
+      setError('Creación de posts no disponible en modo estático');
+    }, 1000);
+
+    // try {
+    //   // Filter out empty image URLs
+    //   const filteredImageUrls = formData.image_urls.filter(url => url.trim() !== '');
+      
+    //   const postData = {
+    //     title: formData.title,
+    //     content: formData.content,
+    //     image_urls: filteredImageUrls,
+    //     published: formData.published,
+    //     published_at: formData.published ? new Date().toISOString() : null
+    //   };
+
+    //   const supabase = createClient();
+    //   const { data, error } = await supabase
+    //     .from('blog_posts')
+    //     .insert([postData]);
+
+    //   if (error) throw error;
+
+    //   router.push('/admin/blog');
+    // } catch (error) {
+    //   console.error('Error creating post:', error);
+    //   setError('Error al crear el post');
+    // } finally {
+    //   setLoading(false);
+    // }
   };
 
   return (

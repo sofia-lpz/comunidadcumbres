@@ -41,13 +41,25 @@ export default function ProgramForm({ program = null, onSubmit, onCancel }) {
     // Cargar categorías
     async function fetchCategories() {
       try {
-        const supabase = createClient();
-        const { data, error } = await supabase
-          .from('categories')
-          .select('*')
-          .order('name');
+        // Usar categorías estáticas en modo estático
+        const staticCategories = [
+          { id: '1', name: 'Educación', color: '#4F46E5' },
+          { id: '2', name: 'Salud', color: '#10B981' },
+          { id: '3', name: 'Cultura', color: '#F59E0B' },
+          { id: '4', name: 'Infraestructura', color: '#8B5CF6' },
+          { id: '5', name: 'Medio Ambiente', color: '#059669' },
+          { id: '6', name: 'Voluntariado', color: '#DC2626' }
+        ];
+        
+        setCategories(staticCategories);
+        
+        // const supabase = createClient();
+        // const { data, error } = await supabase
+        //   .from('categories')
+        //   .select('*')
+        //   .order('name');
           
-        if (error) throw error;
+        // if (error) throw error;
         setCategories(data || []);
       } catch (error) {
         console.error('Error fetching categories:', error);
