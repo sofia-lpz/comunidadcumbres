@@ -8,3 +8,5 @@ export default function PrivacidadPage() {
     </main>
   );
 }
+
+//TODO: fetch data
