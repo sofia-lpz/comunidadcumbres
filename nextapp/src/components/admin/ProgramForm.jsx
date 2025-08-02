@@ -1,7 +1,7 @@
 
 'use client';
 import { useState, useEffect } from 'react';
-import { createClient } from '@/utils/supabase/client';
+// import { createClient } from '@/utils/supabase/client'; // Comentado para modo estático
 import Input from '@/components/ui/Input';
 import Button from '@/components/ui/Button';
 
@@ -60,7 +60,7 @@ export default function ProgramForm({ program = null, onSubmit, onCancel }) {
         //   .order('name');
           
         // if (error) throw error;
-        setCategories(data || []);
+        // setCategories(data || []);
       } catch (error) {
         console.error('Error fetching categories:', error);
       }
