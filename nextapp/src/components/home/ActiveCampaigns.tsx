@@ -46,6 +46,7 @@ interface Campaign {
 }
 
 // Datos estáticos de ejemplo para programas
+//TODO: fetch data
 const staticCampaigns: Campaign[] = [
   {
     id: '1',

@@ -6,3 +6,5 @@ export default function TerminosPage() {
     </main>
   );
 }
+
+//TODO: fetch data
