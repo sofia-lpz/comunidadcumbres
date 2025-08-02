@@ -1,3 +1,45 @@
+// Archivo comentado temporalmente para build estático
+// TODO: Descomentar cuando se reactive la conexión a base de datos
+
+export async function getEnvConfig() {
+  // Retornar configuración estática para evitar errores
+  return {
+    supabaseUrl: null,
+    supabaseKey: null,
+    nodeEnv: process.env.NODE_ENV || 'development',
+    isClient: typeof window !== 'undefined',
+    isConfigured: false,
+    message: 'Configuración de entorno deshabilitada en modo estático'
+  };
+}
+
+// Versión síncrona para compatibilidad con código existente
+export function getEnvConfigSync() {
+  return {
+    supabaseUrl: null,
+    supabaseKey: null,
+    nodeEnv: process.env.NODE_ENV || 'development',
+    isClient: typeof window !== 'undefined',
+    isConfigured: false,
+    message: 'Configuración de entorno deshabilitada en modo estático'
+  };
+}
+
+// Función para validar la configuración durante el build
+export async function validateBuildConfig() {
+  console.log('✅ Environment configuration skipped (static mode)');
+  return true;
+}
+
+// Función síncrona para validar la configuración durante el build
+export function validateBuildConfigSync() {
+  console.log('✅ Environment configuration skipped (static mode)');
+  return true;
+}
+
+/*
+// CÓDIGO ORIGINAL COMENTADO PARA REACTIVAR POSTERIORMENTE
+
 // Configuración para manejo de variables de entorno optimizada para deployment + Supabase
 async function loadServerSecrets() {
   // Solo en servidor - Las plataformas de deployment automáticamente exponen las variables de entorno
@@ -123,3 +165,4 @@ export function validateBuildConfigSync() {
     return false;
   }
 }
+*/

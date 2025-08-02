@@ -1,5 +1,27 @@
-// Script para verificar la conexión a Supabase
+// Script para verificar la conexión a Supabase - COMENTADO PARA MODO ESTÁTICO
+// TODO: Descomentar cuando se reactive la conexión a base de datos
 // Ejecutar con: node verify-connection.js
+
+// const { createClient } = require('@supabase/supabase-js');
+// require('dotenv').config({ path: '.env.local' });
+
+async function verifyConnection() {
+  console.log('🔍 Verificación de Supabase (MODO ESTÁTICO)...\n');
+  console.log('✅ Verificación omitida - aplicación en modo estático');
+  console.log('✅ No se requiere conexión a base de datos para el build');
+  console.log('✅ Todas las funcionalidades usan datos estáticos\n');
+  return true;
+}
+
+// Ejecutar verificación
+verifyConnection().then(() => {
+  console.log('🎉 Verificación completada exitosamente');
+}).catch((err) => {
+  console.error('❌ Error en verificación:', err);
+});
+
+/*
+// CÓDIGO ORIGINAL COMENTADO
 
 const { createClient } = require('@supabase/supabase-js');
 require('dotenv').config({ path: '.env.local' });
@@ -48,18 +70,19 @@ async function verifyConnection() {
       console.log('✅ Servicio de autenticación disponible');
       
       if (authData.session) {
-        console.log(`👤 Usuario activo: ${authData.session.user.email}`);
+        console.log('✅ Usuario autenticado actualmente');
       } else {
-        console.log('👤 No hay usuario autenticado (esto es normal)');
+        console.log('ℹ️  No hay usuario autenticado actualmente');
       }
     }
     
-    console.log('\n🎉 Verificación completada. Puedes ejecutar: npm run dev');
-    
   } catch (error) {
     console.log(`❌ Error inesperado: ${error.message}`);
-    console.log('Verifica tu configuración de Supabase.');
   }
+  
+  console.log('\n🎉 Verificación completada');
 }
 
+// Ejecutar verificación
 verifyConnection();
+*/
