@@ -1,7 +1,7 @@
 // En src/app/programas/[slug]/page.jsx
 'use client';
 import { useEffect, useState } from 'react';
-import { createClient } from '@/utils/supabase/client';
+// import { createClient } from '@/utils/supabase/client'; // Comentado para modo estático
 import { useParams } from 'next/navigation';
 import Button from '@/components/ui/Button';
 import Modal from '@/components/ui/Modal';
@@ -13,28 +13,44 @@ export default function ProgramDetail() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    async function fetchProgram() {
-      setLoading(true);
-      try {
-        const supabase = createClient();
-        const { data, error } = await supabase
-          .from('programs')
-          .select('*, categories(*)')
-          .eq('id', slug)
-          .single();
-          
-        if (error) throw error;
-        setProgram(data);
-      } catch (error) {
-        console.error('Error fetching program:', error);
-      } finally {
-        setLoading(false);
-      }
-    }
+    // Función comentada para modo estático
+    // async function fetchProgram() {
+    //   setLoading(true);
+    //   try {
+    //     const supabase = createClient();
+    //     const { data, error } = await supabase
+    //       .from('programs')
+    //       .select('*, categories(*)')
+    //       .eq('id', slug)
+    //       .single();
+    //       
+    //     if (error) throw error;
+    //     setProgram(data);
+    //   } catch (error) {
+    //     console.error('Error fetching program:', error);
+    //   } finally {
+    //     setLoading(false);
+    //   }
+    // }
     
-    if (slug) {
-      fetchProgram();
-    }
+    // Datos estáticos para modo estático
+    setLoading(false);
+    setProgram({
+      id: slug,
+      title: 'Programa de Ejemplo',
+      short_description: 'Descripción corta del programa',
+      full_description: 'Descripción completa del programa para modo estático',
+      image_url: '/images/default-program.svg',
+      status: 'active',
+      categories: {
+        name: 'Educación',
+        color: '#4F46E5'
+      }
+    });
+    
+    // if (slug) {
+    //   fetchProgram();
+    // }
   }, [slug]);
 
   if (loading) return <div className="text-center py-12">Cargando...</div>;
