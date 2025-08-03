@@ -50,12 +50,12 @@ interface Campaign {
 const staticCampaigns: Campaign[] = [
   {
     id: '1',
-    title: 'Apoyo Educativo',
-    description: 'Programa de becas y útiles escolares para estudiantes de escasos recursos',
-    full_description: 'Nuestro programa de apoyo educativo brinda becas escolares, útiles y materiales educativos a niños y jóvenes en situación de vulnerabilidad económica.',
+    title: 'Programa Mochilas Escolares',
+    description: 'Entrega de mochilas con útiles escolares completos para estudiantes de escasos recursos',
+    full_description: 'Nuestro programa "Mochilas Escolares" proporciona mochilas equipadas con todos los útiles necesarios para el ciclo escolar a niños y jóvenes en situación de vulnerabilidad económica.',
     image: '/images/hero-carousel/ProyectoUtilesEscolares.jpg',
     status: 'active',
-    href: '/programas/apoyo-educativo',
+    href: '/inscribirse',
     category: 'Educación',
     categoryColor: '#4F46E5',
     target_audience: 'Niños y jóvenes de 6 a 18 años',

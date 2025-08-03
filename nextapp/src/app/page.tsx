@@ -6,6 +6,7 @@ import Link from "next/link";
 
 import Hero from "@/components/home/Hero.jsx";
 import ActiveCampaigns from "@/components/home/ActiveCampaigns";
+import ImpactCards from "@/components/home/ImpactCards";
 
 interface BlogPost {
   id: string;
@@ -17,123 +18,7 @@ interface BlogPost {
   created_at: string;
 }
 
-// Datos estáticos de ejemplo para el blog
-const staticBlogPosts: BlogPost[] = [
-  {
-    id: "1",
-    title: "Proyecto de Reforestación en Comunidad",
-    content: "Hemos iniciado un ambicioso proyecto de reforestación que busca recuperar áreas verdes en nuestra comunidad. Este proyecto incluye la plantación de árboles nativos, talleres de educación ambiental y la participación activa de voluntarios locales.",
-    image_urls: ["/images/hero-carousel/ProyectoReforestacion.jpg"],
-    published: true,
-    published_at: "2024-07-15",
-    created_at: "2024-07-15"
-  },
-  {
-    id: "2",
-    title: "Donación de Útiles Escolares",
-    content: "Gracias a la generosidad de nuestra comunidad, hemos logrado reunir y distribuir útiles escolares para más de 200 niños en situación de vulnerabilidad. Esta iniciativa busca garantizar que todos los niños tengan acceso a las herramientas necesarias para su educación.",
-    image_urls: ["/images/hero-carousel/ProyectoUtilesEscolares.jpg"],
-    published: true,
-    published_at: "2024-07-10",
-    created_at: "2024-07-10"
-  },
-  {
-    id: "3",
-    title: "Nueva Cancha de Básquet para Jóvenes",
-    content: "Con gran emoción anunciamos la inauguración de nuestra nueva cancha de básquet. Este espacio deportivo será un lugar de encuentro para jóvenes de la comunidad, promoviendo el deporte y la sana convivencia.",
-    image_urls: ["/images/hero-carousel/ProyectoCanchaBasket.jpg"],
-    published: true,
-    published_at: "2024-07-05",
-    created_at: "2024-07-05"
-  }
-];
 
-function BlogPreviewSection() {
-  // const [posts, setPosts] = useState<BlogPost[]>([]);
-  // const [loading, setLoading] = useState(true);
-
-  // useEffect(() => {
-  //   async function fetchPosts() {
-  //     const supabase = createClient();
-  //     const { data, error } = await supabase
-  //       .from("blog_posts")
-  //       .select("*")
-  //       .eq("published", true)
-  //       .order("published_at", { ascending: false })
-  //       .limit(3);
-
-  //     if (!error && data) setPosts(data);
-  //     setLoading(false);
-  //   }
-
-  //   fetchPosts();
-  // }, []);
-
-  // Usar datos estáticos en lugar de la base de datos
-  const posts = staticBlogPosts;
-  const loading = false;
-
-  const formatDate = (dateString: string) =>
-    new Date(dateString).toLocaleDateString("es-ES", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
-
-  if (loading) {
-    return (
-      <div className="flex justify-center py-12">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#5D84C4]"></div>
-      </div>
-    );
-  }
-
-  return (
-    <section className="py-16 bg-white">
-      <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center mb-12">
-          Últimas Publicaciones
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {posts.map((post) => (
-            <article
-              key={post.id}
-              className="bg-gray-50 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
-            >
-              {post.image_urls && post.image_urls[0] && (
-                <div className="relative h-48 w-full">
-                  <Image
-                    src={post.image_urls[0]}
-                    alt={post.title}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-              )}
-              <div className="p-6">
-                <p className="text-sm text-[#5D84C4] font-medium mb-1">
-                  {formatDate(post.published_at || post.created_at)}
-                </p>
-                <h3 className="text-lg font-semibold text-gray-800 mb-2 line-clamp-2">
-                  {post.title}
-                </h3>
-                <p className="text-gray-600 text-sm line-clamp-3 mb-4">
-                  {post.content.slice(0, 120)}...
-                </p>
-                <Link
-                  href={`/blog/${post.id}`}
-                  className="text-[#5D84C4] font-medium hover:underline"
-                >
-                  Leer más →
-                </Link>
-              </div>
-            </article>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
 
 export default function Home() {
   return (
@@ -153,18 +38,90 @@ export default function Home() {
         ]}
       />
 
-      {/* Featured Programs Section */}
-      <section className="py-16 bg-gray-50">
+      {/* Featured Program Registration - Programa Mochilas Escolares */}
+      <section className="py-20 bg-gradient-to-r from-[#5D84C4] to-[#5D84C4]">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-12">
-            Nuestros Programas
-          </h2>
-          <ActiveCampaigns />
+          <div className="grid lg:grid-cols-2 gap-12 items-center max-w-7xl mx-auto">
+            
+            {/* Contenido del texto - Lado izquierdo */}
+            <div className="space-y-8">
+              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
+                <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
+                  Programa Mochilas Escolares
+                </h2>
+                <p className="text-xl text-white/95 mb-8 leading-relaxed">
+                  Proporcionamos útiles escolares completos a niños y jóvenes de familias, 
+                  asegurando que tengan las herramientas necesarias para su educación y desarrollo académico.
+                </p>
+                
+                {/* Estadísticas rápidas */}
+                <div className="grid grid-cols-2 gap-4 mb-8">
+                  <div className="text-center bg-white/10 rounded-lg py-3">
+                    <div className="text-2xl font-bold text-white">+100</div>
+                    <div className="text-white/80 text-sm">Mochilas entregadas</div>
+                  </div>
+                  
+                </div>
+
+                {/* Botones de acción */}
+                <div className="space-y-4">
+                  <Link 
+                    href="/inscribirse"
+                    className="w-full inline-flex items-center justify-center px-8 py-4 bg-[#ef4444] hover:bg-[#dc2626] text-white font-bold text-lg rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+                  >
+                    <span className="mr-3"> REGÍSTRATE AHORA</span>
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                  </Link>
+                  <Link 
+                    href="/programas"
+                    className="w-full inline-flex items-center justify-center px-6 py-3 border-2 border-white text-white font-semibold rounded-xl hover:bg-white hover:text-blue-600 transition-all duration-300"
+                  >
+                    Ver más programas
+                  </Link>
+                </div>
+              </div>
+            </div>
+
+            {/* Imagen - Lado derecho */}
+            <div className="relative">
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl">
+                <Image
+                  src="https://contagiandovoluntad.org/img/portfolio/portfolio-MochilasYanga.png"
+                  alt="Programa Mochilas Escolares"
+                  width={600}
+                  height={450}
+                  className="w-full h-auto object-cover"
+                  priority
+                />
+                {/* Overlay decorativo */}
+                <div className="absolute inset-0 bg-gradient-to-t from-blue-900/20 to-transparent"></div>
+              </div>
+              
+              {/* Elementos decorativos */}
+              <div className="absolute -top-4 -right-4 w-24 h-24 bg-white/20 rounded-full blur-xl"></div>
+              <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Últimas publicaciones del blog */}
-      <BlogPreviewSection />
+      {/* Programs Section */}
+      <section className="py-16 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center mb-4">
+            Programas Disponibles
+          </h2>
+          <p className="text-gray-600 text-center mb-12 max-w-2xl mx-auto">
+            Conoce todos nuestros programas activos y cómo puedes participar en el desarrollo de tu comunidad.
+          </p>
+          
+        </div>
+      </section>
+
+      {/* Impact Cards Section - New CARE.org style */}
+      <ImpactCards />
     </div>
   );
 }
