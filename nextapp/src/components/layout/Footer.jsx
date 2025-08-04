@@ -1,6 +1,7 @@
 import React from "react";
 import LogoComponent from "../ui/LogoComponent";
 import Link from "next/link";
+import { FaWhatsapp } from "react-icons/fa";
 
 import {
   MapPin,
@@ -45,10 +46,8 @@ export default function Footer() {
 
   return (
     <footer className="bg-[#D9D3A7] text-gray-800">
-      {/* Main footer content */}
       <div className="max-w-7xl mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {/* Logo and Contact Info */}
           <div className="lg:col-span-1">
             <Link
               href="/"
@@ -71,7 +70,6 @@ export default function Footer() {
               programas de apoyo, educación y desarrollo social.
             </p>
 
-            {/* Contact Info */}
             <div className="space-y-3">
               <div className="flex items-center space-x-3">
                 <MapPin className="w-4 h-4 text-[#5D84C4] flex-shrink-0" />
@@ -99,6 +97,17 @@ export default function Footer() {
                 </span>
               </div>
               <div className="flex items-center space-x-3">
+                <FaWhatsapp className="w-4 h-4 text-[#5D84C4] flex-shrink-0" />
+                <a
+                  href="#"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-gray-700 hover:underline"
+                >
+                  Recibe las últimas noticias
+                </a>
+              </div>
+              <div className="flex items-center space-x-3">
                 <Instagram className="w-4 h-4 text-[#5D84C4] flex-shrink-0" />
                 <a
                   href="https://www.instagram.com/comunidad_cumbres"
@@ -112,7 +121,6 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Quick Links */}
           <div>
             <h3 className="text-lg font-semibold mb-4 text-[#5D84C4]">
               Explora
@@ -132,7 +140,6 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Support Links */}
           <div>
             <h3 className="text-lg font-semibold mb-4 text-[#5D84C4]">Únete</h3>
             <ul className="space-y-2">
@@ -153,7 +160,6 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Resources */}
           <div>
             <h3 className="text-lg font-semibold mb-4 text-[#5D84C4]">
               Recursos
@@ -173,11 +179,8 @@ export default function Footer() {
             </ul>
           </div>
         </div>
-
-        {/* Stats Section */}
       </div>
 
-      {/* Bottom bar */}
       <div className="bg-black bg-opacity-10 border-t border-gray-400">
         <div className="max-w-7xl mx-auto px-4 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
