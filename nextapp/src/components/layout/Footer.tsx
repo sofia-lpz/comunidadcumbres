@@ -53,16 +53,12 @@ export default function Footer() {
               href="/"
               className="flex items-center space-x-3 mb-6 hover:opacity-80 transition"
             >
-              <img
-                src="/LOGO_COMUNIDAD.png"
-                alt="Logo Patronato"
-                className="w-12 h-12 object-contain"
+              <LogoComponent
+                variant="comunidad" // <-- mismo asset sin texto
+                size={56}
+                titleClassName="text-[clamp(20px,1.8vw,32px)] text-black font-bold"
+                subtitleClassName="text-[clamp(14px,1.2vw,20px)] text-black/90"
               />
-              <div className="flex flex-col">
-                <span className="text-xl font-bold text-black">
-                  COMUNIDAD CUMBRES
-                </span>
-              </div>
             </Link>
 
             <p className="text-gray-700 text-sm mb-6 leading-relaxed">

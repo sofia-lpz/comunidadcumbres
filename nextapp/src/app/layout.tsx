@@ -34,15 +34,14 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <NavBar />
-        {/* Compensar el espacio del navbar fixed - h-28 cuando no scrolled, h-20 cuando scrolled */}
-        <div className="pt-28 md:pt-28">
-          {children}
-        </div>
-        <Footer />
-      </body>
+  className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white text-gray-900`}
+>
+  <NavBar />
+  <div className="pt-28 md:pt-28">
+    {children}
+  </div>
+  <Footer />
+</body>
     </html>
   );
 }

@@ -79,17 +79,6 @@ export default function ImpactCards() {
   return (
     <section className="py-16 bg-white">
       <div className="container mx-auto px-4">
-        {/* Header con el texto principal */}
-        <div className="text-center mb-16 max-w-6xl mx-auto">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-8 leading-tight">
-            A través del compromiso conjunto, el{" "}
-            <span className="text-[#5D84C4]">Patronato Cumbres</span> impulsa
-            programas que fortalecen a las familias, promueven la educación y
-            construyen una comunidad más solidaria.
-          </h2>
-          <div className="w-24 h-1 bg-[#5D84C4] mx-auto rounded-full"></div>
-        </div>
-
         {/* Cards Grid - Simplificadas */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
           {impactCards.map((card, index) => (
