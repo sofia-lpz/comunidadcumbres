@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect, JSX } from "react";
-import { MapPin, Menu, X, Phone } from "lucide-react";
+import { Menu, X, Phone } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
 import LogoComponent from "../ui/LogoComponent";
 import Link from "next/link";
@@ -30,12 +30,13 @@ export default function NavBar(): JSX.Element {
 
   const mainMenuItems: MenuItem[] = [
     { name: "Inicio", href: "/" },
+    { name: "Acceso a clases", href: "/programa-educativo" },
     { name: "Acerca de nosotros", href: "/acerca-de-nosotros" },
     { name: "Blog", href: "/blog" },
   ];
 
   const topMenuItems: TopMenuItem[] = [
-    { icon: MapPin, href: "/ubicacion", name: "Ubicación" },
+    { icon: FaWhatsapp, href: "#", name: "Recibe las últimas noticias" },
     { icon: Phone, href: "/contacto", name: "Contacto" },
   ];
 
@@ -45,16 +46,14 @@ export default function NavBar(): JSX.Element {
         isScrolled ? "h-20" : "h-28"
       }`}
     >
+      {/* Top bar */}
       <div
         className={`transition-all duration-300 overflow-hidden ${
           isScrolled ? "max-h-0 opacity-0" : "max-h-12 opacity-100"
         }`}
       >
         <div className="container mx-auto px-4">
-          <div className="flex justify-between items-center py-2 text-sm h-12">
-            <div className="text-gray-100">
-              Transformando vidas en nuestra comunidad
-            </div>
+          <div className="flex justify-end items-center py-2 text-sm h-12">
             <div className="flex items-center space-x-6">
               {topMenuItems.map((item, index) => {
                 const Icon = item.icon;
@@ -74,12 +73,14 @@ export default function NavBar(): JSX.Element {
         </div>
       </div>
 
+      {/* Main nav */}
       <div className="container mx-auto px-4">
         <div
           className={`flex justify-between items-center ${
             isScrolled ? "h-20" : "h-16"
           }`}
         >
+          {/* Logo */}
           <Link href="/">
             <div className="flex items-center">
               <div
@@ -87,11 +88,20 @@ export default function NavBar(): JSX.Element {
                   isScrolled ? "scale-90" : "scale-100"
                 }`}
               >
-                <LogoComponent variant="white" size={48} showText={true} />
+                {/* Usa el icono SIN texto para evitar duplicado */}
+                <LogoComponent
+                  variant="comunidad" 
+                  size={56}
+                  showText
+                  className="gap-4"
+                  titleClassName="text-[clamp(20px,1.8vw,32px)] text-white font-bold"
+                  subtitleClassName="text-[clamp(14px,1.2vw,20px)] text-white"
+                />
               </div>
             </div>
           </Link>
 
+          {/* Desktop menu */}
           <div
             className={`hidden lg:flex items-center space-x-8 transition-all duration-300 ${
               isScrolled ? "opacity-100" : "opacity-90"
@@ -99,20 +109,20 @@ export default function NavBar(): JSX.Element {
           >
             {mainMenuItems.map((item, index) => (
               <Link key={index} href={item.href}>
-                <span className="font-medium text-white hover:text-[#D9D3A7] transition-colors whitespace-nowrap">
+                <span
+                  className={`font-medium transition-colors whitespace-nowrap ${
+                    item.name === "Acceso a clases"
+                      ? "text-[#FFD700] hover:text-[#F6E05E]"
+                      : "text-white hover:text-[#D9D3A7]"
+                  }`}
+                >
                   {item.name}
                 </span>
               </Link>
             ))}
-            <a
-              href="#"
-              className="flex items-center space-x-2 font-medium text-white hover:text-[#D9D3A7] transition-colors whitespace-nowrap"
-            >
-              <FaWhatsapp className="w-4 h-4" />
-              <span>Recibe las últimas noticias</span>
-            </a>
           </div>
 
+          {/* Mobile toggle + donate */}
           <div className="flex items-center space-x-4">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -135,6 +145,7 @@ export default function NavBar(): JSX.Element {
         </div>
       </div>
 
+      {/* Mobile menu */}
       <div
         className={`lg:hidden transition-all duration-300 overflow-hidden bg-[#5D84C4] ${
           isMobileMenuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
@@ -148,18 +159,17 @@ export default function NavBar(): JSX.Element {
                 href={item.href}
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                <span className="font-medium py-2 text-white hover:text-[#D9D3A7] transition-colors">
+                <span
+                  className={`font-medium py-2 transition-colors whitespace-nowrap ${
+                    item.name === "Acceso a clases"
+                      ? "text-[#FFD700] hover:text-[#F6E05E]"
+                      : "text-white hover:text-[#D9D3A7]"
+                  }`}
+                >
                   {item.name}
                 </span>
               </Link>
             ))}
-            <a
-              href="#"
-              className="flex items-center space-x-2 py-2 text-white hover:text-[#D9D3A7] transition-colors"
-            >
-              <FaWhatsapp className="w-4 h-4" />
-              <span>Recibe las últimas noticias</span>
-            </a>
             <hr className="my-2 border-white border-opacity-20" />
             <div className="flex flex-col space-y-2">
               {topMenuItems.map((item, index) => {
