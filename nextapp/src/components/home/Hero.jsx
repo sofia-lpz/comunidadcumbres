@@ -66,19 +66,25 @@ export default function Hero({ title, subtitle, ctaButtons }) {
 
           {/* Contenedor de botones mejorado para móvil */}
           <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
-            {ctaButtons.map((button, index) => (
-              <Link
-                key={index}
-                href={button.href}
-                className={`inline-block py-3 px-6 rounded-md font-medium transition-colors text-center min-w-fit shadow-lg ${
-                  button.primary
-                    ? "bg-[#CDA52A] hover:bg-[#B3A369] text-white"
-                    : "bg-white hover:bg-gray-100 text-gray-800 border border-gray-300"
-                }`}
-              >
-                {button.text}
-              </Link>
-            ))}
+            {ctaButtons.map((button, index) => {
+              const base =
+                "inline-block py-3 px-6 rounded-md font-medium transition-colors text-center min-w-fit shadow-lg";
+
+              const fallback = button.primary
+                ? "bg-[#CDA52A] hover:bg-[#B3A369] text-white"
+                : "bg-white hover:bg-gray-100 text-gray-800 border border-gray-300";
+
+              // Usa className si se pasó; si no, usa fallback según primary
+              const classes = `${base} ${
+                button.className ? button.className : fallback
+              }`;
+
+              return (
+                <Link key={index} href={button.href} className={classes}>
+                  {button.text}
+                </Link>
+              );
+            })}
           </div>
         </div>
       </div>
