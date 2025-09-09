@@ -1,8 +1,23 @@
-import React, { useState, useEffect } from "react";
+"use client";
+
+import React, { useState, useEffect, ReactNode } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
-export default function Hero({ title, subtitle, ctaButtons }) {
+type CTAButton = {
+  text: string,
+  href: string,
+  className?: string,
+  primary?: boolean,
+};
+
+interface HeroProps {
+  title: ReactNode;
+  subtitle?: ReactNode; // ahora es opcional
+  ctaButtons: CTAButton[];
+}
+
+export default function Hero({ title, subtitle, ctaButtons }: HeroProps) {
   // Imágenes locales en la carpeta public
   const backgroundImages = [
     "/images/hero-carousel/ProyectoCanchaBasket.jpg",
@@ -23,7 +38,7 @@ export default function Hero({ title, subtitle, ctaButtons }) {
   }, [backgroundImages.length]);
 
   return (
-    <div className="relative bg-[#5D84C4] py-12 md:py-20 overflow-hidden">
+    <div className="relative bg-[#5D84C4] min-h-[70vh] md:min-h-[75vh] lg:min-h-[80vh] py-12 md:py-20 overflow-hidden">
       {/* Background image carousel */}
       <div className="absolute inset-0">
         {backgroundImages.map((imageUrl, index) => (
@@ -59,10 +74,12 @@ export default function Hero({ title, subtitle, ctaButtons }) {
             {title}
           </h1>
 
-          {/* Subtítulo con mayor peso y tamaño */}
-          <p className="text-2xl md:text-3xl font-semibold leading-relaxed mb-10 text-gray-100 drop-shadow-md">
-            {subtitle}
-          </p>
+          {/* Subtítulo solo si existe */}
+          {subtitle && (
+            <p className="text-2xl md:text-3xl font-semibold leading-relaxed mb-10 text-gray-100 drop-shadow-md">
+              {subtitle}
+            </p>
+          )}
 
           {/* Contenedor de botones mejorado para móvil */}
           <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
@@ -74,7 +91,6 @@ export default function Hero({ title, subtitle, ctaButtons }) {
                 ? "bg-[#CDA52A] hover:bg-[#B3A369] text-white"
                 : "bg-white hover:bg-gray-100 text-gray-800 border border-gray-300";
 
-              // Usa className si se pasó; si no, usa fallback según primary
               const classes = `${base} ${
                 button.className ? button.className : fallback
               }`;
