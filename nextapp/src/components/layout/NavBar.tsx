@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect, JSX } from "react";
-import { Menu, X, Phone } from "lucide-react";
+import { Menu, X, Mail } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
 import LogoComponent from "../ui/LogoComponent";
 import Link from "next/link";
@@ -37,7 +37,7 @@ export default function NavBar(): JSX.Element {
 
   const topMenuItems: TopMenuItem[] = [
     { icon: FaWhatsapp, href: "#", name: "Recibe las últimas noticias" },
-    { icon: Phone, href: "/contacto", name: "Contacto" },
+    { icon: Mail, href: "/contacto", name: "Contacto" },
   ];
 
   return (
@@ -53,21 +53,36 @@ export default function NavBar(): JSX.Element {
         }`}
       >
         <div className="container mx-auto px-4">
-          <div className="flex justify-end items-center py-2 text-sm h-12">
-            <div className="flex items-center space-x-6">
-              {topMenuItems.map((item, index) => {
-                const Icon = item.icon;
-                return (
-                  <a
-                    key={index}
-                    href={item.href}
-                    className="flex items-center space-x-1 text-gray-100 hover:text-[#D9D3A7] transition-colors"
-                  >
-                    <Icon className="w-4 h-4" />
-                    <span className="hidden sm:inline">{item.name}</span>
-                  </a>
-                );
-              })}
+          {/* Top bar */}
+          <div
+            className={`transition-all duration-300 overflow-hidden ${
+              isScrolled ? "max-h-0 opacity-0" : "max-h-12 opacity-100"
+            }`}
+          >
+            <div className="container mx-auto px-4">
+              <div className="flex justify-between items-center py-2 text-sm h-12">
+                {/* 👉 Frase en la esquina superior izquierda */}
+                <span className="text-gray-100 hidden sm:inline">
+                  Vecinos unidos, comunidades más fuertes
+                </span>
+
+                {/* 👉 Íconos (Whatsapp y Mail) a la derecha */}
+                <div className="flex items-center space-x-6">
+                  {topMenuItems.map((item, index) => {
+                    const Icon = item.icon;
+                    return (
+                      <a
+                        key={index}
+                        href={item.href}
+                        className="flex items-center space-x-1 text-gray-100 hover:text-[#D9D3A7] transition-colors"
+                      >
+                        <Icon className="w-4 h-4" />
+                        <span className="hidden sm:inline">{item.name}</span>
+                      </a>
+                    );
+                  })}
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -90,7 +105,7 @@ export default function NavBar(): JSX.Element {
               >
                 {/* Usa el icono SIN texto para evitar duplicado */}
                 <LogoComponent
-                  variant="comunidad" 
+                  variant="comunidad"
                   size={56}
                   showText
                   className="gap-4"
