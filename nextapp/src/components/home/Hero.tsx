@@ -20,9 +20,12 @@ interface HeroProps {
 export default function Hero({ title, subtitle, ctaButtons }: HeroProps) {
   // Imágenes locales en la carpeta public
   const backgroundImages = [
-    "/images/hero-carousel/ProyectoCanchaBasket.jpg",
-    "/images/hero-carousel/ProyectoReforestacion.jpg",
-    "/images/hero-carousel/ProyectoUtilesEscolares.jpg",
+    "/images/hero-carousel/CanchaSanMateo.jpg",
+    "/images/hero-carousel/ClasesTec.jpg",
+    "/images/hero-carousel/EntregaDiploma.jpg",
+    "/images/hero-carousel/EntregaMochilas.jpg",
+    "/images/hero-carousel/EntregaMochilas2.jpg",
+    "/images/hero-carousel/Reforestacion.jpg",
   ];
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);

@@ -61,7 +61,7 @@ export default function Home() {
             onOpen={(idx) => setOpenProgramIdx(idx)}
           />
         </div>
-      </section>
+      </section> 
 
       {/* ========= Modal de Programa ========= */}
       <ProgramModal
