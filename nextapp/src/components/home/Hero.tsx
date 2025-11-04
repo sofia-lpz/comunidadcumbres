@@ -3,6 +3,7 @@
 import React, { useState, useEffect, ReactNode } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 
 type CTAButton = {
   text: string;
@@ -17,26 +18,56 @@ interface HeroProps {
   ctaButtons?: CTAButton[]; // opcional para evitar crashes
 }
 
+/** Ajustes por imagen (solo si lo necesitas):
+ *  - position: por breakpoint (default/md/lg) con "X% Y%" (ej. "50% 70%")
+ *  - fit: "cover" (default) o "contain"
+ *  - brightness: 0..1 (1 = sin cambio)
+ *  - scale: 1 = sin cambio
+ */
+type ImgOverride = {
+  position?: { default?: string; md?: string; lg?: string };
+  fit?: "cover" | "contain";
+  brightness?: number;
+  scale?: number;
+};
+
 export default function Hero({ title, subtitle, ctaButtons = [] }: HeroProps) {
-  // Imágenes locales en /public
   const backgroundImages = [
-    "/images/hero-carousel/CanchaSanMateo.jpg",
-    "/images/hero-carousel/ClasesTec.jpg",
-    "/images/hero-carousel/EntregaDiploma.jpg",
-    "/images/hero-carousel/EntregaMochilas.jpg",
-    "/images/hero-carousel/EntregaMochilas2.jpg",
-    "/images/hero-carousel/Reforestacion.jpg",
+    "/images/hero-carousel/imagen1.jpeg",
+    "/images/hero-carousel/imagen2.jpeg",
+    "/images/hero-carousel/imagen3.jpeg",
+    "/images/hero-carousel/imagen4.jpg", // idx 3
+    "/images/hero-carousel/imagen5.jpg", // idx 4
+    "/images/hero-carousel/imagen6.jpg",
+    "/images/hero-carousel/imagen7.jpg",
+    "/images/hero-carousel/imagen8.jpg",
+    "/images/hero-carousel/imagen9.jpg", // idx 8
   ];
 
-  // Puntos focales por breakpoint (x%, y%)
+  /** Overrides SOLO para 4, 5 y 9
+   *  Los valores de lg vienen de tus pruebas con ?heroDebug=1
+   */
+  const overridesInitial: Record<number, ImgOverride> = {
+    // imagen 4 (idx 3): más hacia abajo en lg (X:50% Y:38%)
+    3: { position: { default: "50% 70%", md: "50% 72%", lg: "50% 38%" } },
+    // imagen 5 (idx 4): más hacia arriba en lg (X:50% Y:54%)
+    4: { position: { default: "50% 30%", md: "50% 28%", lg: "50% 54%" } },
+    // imagen 9 (idx 8): un poco más abajo en lg (X:50% Y:26%)
+    8: { position: { default: "50% 60%", md: "50% 62%", lg: "50% 26%" } },
+  };
+
+  // Puntos focales por breakpoint (fallback si no hay override)
   const focalPoints = {
     default: [
-      { x: "50%", y: "50%" },
-      { x: "50%", y: "50%" },
-      { x: "72%", y: "35%" },
-      { x: "50%", y: "50%" },
-      { x: "62%", y: "34%" },
-      { x: "50%", y: "50%" },
+      { x: "50%", y: "50%" }, // 0
+      { x: "50%", y: "50%" }, // 1
+      { x: "72%", y: "35%" }, // 2
+      { x: "50%", y: "50%" }, // 3
+      { x: "62%", y: "34%" }, // 4
+      { x: "50%", y: "50%" }, // 5
+      { x: "50%", y: "50%" }, // 6
+      { x: "50%", y: "50%" }, // 7
+      { x: "50%", y: "50%" }, // 8
     ],
     md: [
       { x: "50%", y: "50%" },
@@ -45,6 +76,9 @@ export default function Hero({ title, subtitle, ctaButtons = [] }: HeroProps) {
       { x: "50%", y: "50%" },
       { x: "62%", y: "40%" },
       { x: "50%", y: "50%" },
+      { x: "50%", y: "50%" },
+      { x: "50%", y: "50%" },
+      { x: "50%", y: "50%" },
     ],
     lg: [
       { x: "50%", y: "50%" },
@@ -52,6 +86,9 @@ export default function Hero({ title, subtitle, ctaButtons = [] }: HeroProps) {
       { x: "72%", y: "42%" },
       { x: "50%", y: "50%" },
       { x: "62%", y: "20%" },
+      { x: "50%", y: "50%" },
+      { x: "50%", y: "50%" },
+      { x: "50%", y: "50%" },
       { x: "50%", y: "50%" },
     ],
   } as const;
@@ -81,20 +118,85 @@ export default function Hero({ title, subtitle, ctaButtons = [] }: HeroProps) {
     return () => clearInterval(id);
   }, [backgroundImages.length]);
 
+  // Estado local para overrides (sirve para el panel de debug)
+  const [overrides, setOverrides] = useState(overridesInitial);
+
+  // Panel de depuración activable por query param ?heroDebug=1
+  const search = useSearchParams();
+  const debugMode = search?.get("heroDebug") === "1";
+
+  // Helpers debug: parsear "X% Y%" y formatear
+  const parsePos = (pos: string) => {
+    const [x, y] = pos.split(" ").map((s) => s.trim());
+    return { x: Number(x.replace("%", "")), y: Number(y.replace("%", "")) };
+  };
+  const fmtPos = (x: number, y: number) => `${x}% ${y}%`;
+
+  const nudge = (idx: number, axis: "x" | "y", delta: number) => {
+    setOverrides((prev) => {
+      const curr = prev[idx] ?? {};
+      const currPos =
+        curr.position?.[bp] ??
+        curr.position?.default ??
+        (() => {
+          const fpD = focalPoints.default[idx] ?? { x: "50%", y: "50%" };
+          const fpM = focalPoints.md[idx] ?? fpD;
+          const fpL = focalPoints.lg[idx] ?? fpM;
+          const pick = bp === "lg" ? fpL : bp === "md" ? fpM : fpD;
+          return `${pick.x} ${pick.y}`;
+        })();
+
+      const { x, y } = parsePos(currPos);
+      const nx = axis === "x" ? Math.max(0, Math.min(100, x + delta)) : x;
+      const ny = axis === "y" ? Math.max(0, Math.min(100, y + delta)) : y;
+
+      return {
+        ...prev,
+        [idx]: {
+          ...curr,
+          position: { ...(curr.position ?? {}), [bp]: fmtPos(nx, ny) },
+        },
+      };
+    });
+  };
+
   return (
     <div
       className="
         relative bg-[#5D84C4]
         min-h-[70vh] md:min-h-[75vh] lg:min-h-[80vh]
         py-12 md:py-20 overflow-hidden
-        pb-[calc(96px+env(safe-area-inset-bottom,0px))] md:pb-0
+        pb-[calc(96px+env(safe-area-inset-bottom,0px))]
+        flex flex-col justify-between
       "
     >
       {/* Fondo con carrusel */}
       <div className="absolute inset-0">
         {backgroundImages.map((imageUrl, index) => {
-          const fp = focalPoints[bp][index] ??
-            focalPoints.default[index] ?? { x: "50%", y: "50%" };
+          // 1) Focal por defecto (si no hay override)
+          const fpD = focalPoints.default[index] ?? { x: "50%", y: "50%" };
+          const fpM = focalPoints.md[index] ?? fpD;
+          const fpL = focalPoints.lg[index] ?? fpM;
+
+          // 2) Override si aplica
+          const ov = overrides[index];
+          const objectPosition =
+            ov?.position?.[bp] ??
+            ov?.position?.default ??
+            `${bp === "lg" ? fpL.x : bp === "md" ? fpM.x : fpD.x} ${
+              bp === "lg" ? fpL.y : bp === "md" ? fpM.y : fpD.y
+            }`;
+
+          const fitClass =
+            ov?.fit === "contain" ? "object-contain" : "object-cover";
+
+          const styleExt: React.CSSProperties = {
+            objectPosition,
+            filter: ov?.brightness ? `brightness(${ov.brightness})` : undefined,
+            transform: ov?.scale ? `scale(${ov.scale})` : undefined,
+            transformOrigin: ov?.scale ? "center" : undefined,
+          };
+
           return (
             <div
               key={index}
@@ -106,11 +208,16 @@ export default function Hero({ title, subtitle, ctaButtons = [] }: HeroProps) {
                 src={imageUrl}
                 alt={`Imagen de fondo ${index + 1}`}
                 fill
-                className="object-cover"
-                style={{ objectPosition: `${fp.x} ${fp.y}` }}
+                className={fitClass}
+                style={styleExt}
                 sizes="100vw"
                 priority={index === 0}
               />
+              {debugMode && (
+                <div className="absolute bottom-2 right-2 text-xs bg-black/50 text-white px-2 py-1 rounded">
+                  idx {index} · pos {objectPosition}
+                </div>
+              )}
             </div>
           );
         })}
@@ -123,7 +230,7 @@ export default function Hero({ title, subtitle, ctaButtons = [] }: HeroProps) {
         <div className="absolute -left-20 bottom-10 w-60 h-60 bg-white opacity-5 rounded-full" />
       </div>
 
-      {/* Contenido y CTA de escritorio (posición original) */}
+      {/* Título / Subtítulo arriba-izquierda */}
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-3xl text-left">
           <h1 className="text-[clamp(28px,8vw,40px)] md:text-5xl font-bold mb-6 text-white drop-shadow-lg">
@@ -131,44 +238,33 @@ export default function Hero({ title, subtitle, ctaButtons = [] }: HeroProps) {
           </h1>
 
           {subtitle && (
-            <p className="text-2xl md:text-3xl font-semibold leading-relaxed mb-10 text-gray-100 drop-shadow-md">
+            <p className="text-2xl md:text-3xl font-semibold leading-relaxed text-gray-100 drop-shadow-md">
               {subtitle}
             </p>
-          )}
-
-          {/* CTAs versión escritorio (md+) */}
-          {ctaButtons.length > 0 && (
-            <div className="hidden md:flex flex-row gap-4 items-center">
-              {ctaButtons.map((button, index) => {
-                const base =
-                  "inline-block py-3 px-6 rounded-md font-semibold transition-colors text-center shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-white";
-                const fallback = button.primary
-                  ? "bg-[#CDA52A] hover:bg-[#B3A369] text-white"
-                  : "bg-white hover:bg-gray-100 text-gray-800 border border-gray-300";
-                const classes = `${base} ${button.className ?? fallback}`;
-                return (
-                  <Link key={index} href={button.href} className={classes}>
-                    {button.text}
-                  </Link>
-                );
-              })}
-            </div>
           )}
         </div>
       </div>
 
-      {/* CTAs versión móvil: fijos al borde inferior */}
+      {/* CTAs inferiores: más grandes solo en escritorio */}
       {ctaButtons.length > 0 && (
-        <div className="md:hidden pointer-events-none absolute inset-x-0 bottom-6 z-10">
+        <div className="pointer-events-none absolute inset-x-0 bottom-6 md:bottom-10 z-10">
           <div className="container mx-auto px-4">
-            <div className="pointer-events-auto mx-auto w-full flex flex-col items-stretch justify-center gap-3">
+            <div className="pointer-events-auto mx-auto w-full max-w-5xl flex flex-col md:flex-row items-stretch md:items-center justify-center gap-3 md:gap-6">
               {ctaButtons.map((button, index) => {
                 const base =
-                  "inline-block py-3 px-6 rounded-md font-semibold transition-colors text-center shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-white max-[380px]:py-2.5 max-[380px]:text-sm";
+                  "inline-block rounded-md font-semibold text-center shadow-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-white " +
+                  "max-[380px]:py-2.5 max-[380px]:text-sm";
+
+                // grande solo en escritorio
+                const sizeClasses =
+                  "py-3 px-6 text-base md:py-5 md:px-10 md:text-lg md:rounded-lg";
+
                 const fallback = button.primary
                   ? "bg-[#CDA52A] hover:bg-[#B3A369] text-white"
                   : "bg-white/90 backdrop-blur hover:bg-white text-gray-900 border border-white/60";
-                const classes = `${base} ${button.className ?? fallback}`;
+
+                const classes = `${base} ${sizeClasses} ${button.className ??
+                  fallback}`;
                 return (
                   <Link key={index} href={button.href} className={classes}>
                     {button.text}
@@ -176,6 +272,77 @@ export default function Hero({ title, subtitle, ctaButtons = [] }: HeroProps) {
                 );
               })}
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* ===== Panel de DEPURACIÓN (activar con ?heroDebug=1) ===== */}
+      {debugMode && (
+        <div className="fixed bottom-4 left-4 z-50 rounded-xl bg-black/70 text-white text-sm p-3 space-y-2 backdrop-blur">
+          <div className="font-semibold">Hero Debug (bp: {bp})</div>
+          {[3, 4, 8].map((idx) => {
+            const fpD = focalPoints.default[idx] ?? { x: "50%", y: "50%" };
+            const fpM = focalPoints.md[idx] ?? fpD;
+            const fpL = focalPoints.lg[idx] ?? fpM;
+            const currPos =
+              overrides[idx]?.position?.[bp] ??
+              overrides[idx]?.position?.default ??
+              `${bp === "lg" ? fpL.x : bp === "md" ? fpM.x : fpD.x} ${
+                bp === "lg" ? fpL.y : bp === "md" ? fpM.y : fpD.y
+              }`;
+            const [xx, yy] = currPos.split(" ");
+            const x = Number(xx.replace("%", ""));
+            const y = Number(yy.replace("%", ""));
+
+            return (
+              <div key={idx} className="border-t border-white/20 pt-2">
+                <div className="mb-1">
+                  <span className="opacity-80">img idx {idx}:</span>{" "}
+                  <span className="font-mono">{currPos}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <button
+                    className="px-2 py-1 bg-white/10 rounded hover:bg-white/20"
+                    onClick={() => nudge(idx, "x", -2)}
+                    title="Mover foco a la IZQUIERDA (X - 2%)"
+                  >
+                    ←
+                  </button>
+                  <button
+                    className="px-2 py-1 bg-white/10 rounded hover:bg-white/20"
+                    onClick={() => nudge(idx, "x", 2)}
+                    title="Mover foco a la DERECHA (X + 2%)"
+                  >
+                    →
+                  </button>
+                  <button
+                    className="px-2 py-1 bg-white/10 rounded hover:bg-white/20"
+                    onClick={() => nudge(idx, "y", -2)}
+                    title="SUBIR lo visible (Y - 2%)"
+                  >
+                    ↑
+                  </button>
+                  <button
+                    className="px-2 py-1 bg-white/10 rounded hover:bg-white/20"
+                    onClick={() => nudge(idx, "y", 2)}
+                    title="BAJAR lo visible (Y + 2%)"
+                  >
+                    ↓
+                  </button>
+                  <div className="ml-2 opacity-80">
+                    X:{x}% Y:{y}%
+                  </div>
+                </div>
+                <div className="mt-1 text-xs opacity-80">
+                  Copia en overrides[{idx}].position.{bp}:{" "}
+                  <span className="font-mono">{currPos}</span>
+                </div>
+              </div>
+            );
+          })}
+          <div className="text-xs opacity-80">
+            Consejo: **↓** baja lo visible (Y aumenta), **↑** sube lo visible (Y
+            disminuye). **←/→** ajusta a los lados (X).
           </div>
         </div>
       )}
