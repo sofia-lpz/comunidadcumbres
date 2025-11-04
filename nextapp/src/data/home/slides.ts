@@ -77,7 +77,7 @@ export const slides: Slide[] = [
   {
     title: "Programa de Reforestación",
     description:
-      "Realizamos jornadas de reforestación para embellecer nuestras áreas verdes, fortalecer los lazos vecinales y fomentar la convivencia en la comunidad.",
+      "Realizamos jornadas de reforestación para embellecer nuestras áreas verdes, fortalecer los lazos vecinales y fomentar la convivencia en nuestra comunidad.",
     image: "/images/carrusel-programas/reforestacion/portada.jpeg",
     longText:
       "Cuidar nuestro entorno también significa cuidar nuestra comunidad. Impulsamos jornadas de reforestación en las áreas verdes del condominio. Este programa no solo embellece nuestro espacio, también fortalece los lazos entre vecinos y fomenta la convivencia. Juntos, cultivamos naturaleza y comunidad.",
