@@ -1,4 +1,6 @@
-export const logos = [
+import type { LogoItem } from "@/types/home";
+
+export const logos: ReadonlyArray<LogoItem> = [
   { src: "/images/logos/colaborador1.png", alt: "Colaborador 1" },
   { src: "/images/logos/colaborador2.png", alt: "Colaborador 2" },
   { src: "/images/logos/colaborador3.png", alt: "Colaborador 3" },
@@ -10,4 +12,5 @@ export const logos = [
   { src: "/images/logos/colaborador9.png", alt: "Colaborador 9" },
   { src: "/images/logos/colaborador10.png", alt: "Colaborador 10" },
   { src: "/images/logos/colaborador11.png", alt: "Colaborador 11" },
+  // ...hasta 15 si quieres
 ] as const;

@@ -5,7 +5,8 @@ import Image from "next/image";
 type Logo = { src: string; alt: string };
 
 type Props = {
-  items: Logo[];
+  /** Acepta arreglos readonly para que encaje con `logos` tipado con `as const` */
+  items: ReadonlyArray<Logo>;
   ariaLabel?: string;
   autoIntervalMs?: number;
 };
@@ -23,19 +24,22 @@ function usePrefersReducedMotion() {
 }
 
 export default function LogosCarousel({
-  items = [],
+  items,
   ariaLabel = "Logos de colaboradores",
   autoIntervalMs = 3000,
 }: Props) {
-  const safe = Array.isArray(items) ? items : [];
+  // `items` ya es readonly; no lo mutamos
+  const safe = items ?? [];
   const multi = safe.length > 1;
+
+  // Duplicamos para loop infinito sin mutar el original
   const doubled = React.useMemo(() => (safe.length ? [...safe, ...safe] : []), [
     safe,
   ]);
 
   const containerRef = React.useRef<HTMLDivElement | null>(null);
 
-  // Layout: menos columnas y mayor altura por breakpoint
+  // Layout responsivo
   const [visibleCount, setVisibleCount] = React.useState(3);
   const [gap, setGap] = React.useState(16);
   const [cardW, setCardW] = React.useState(220);
@@ -48,24 +52,20 @@ export default function LogosCarousel({
     const compute = () => {
       const w = el.clientWidth;
 
-      // Menos columnas para hacer los logos grandes
       const vCount =
         w >= 1536 ? 6 : w >= 1280 ? 6 : w >= 1024 ? 5 : w >= 768 ? 4 : 3;
       setVisibleCount(vCount);
 
-      // Gaps moderados
       const g =
         w >= 1536 ? 24 : w >= 1280 ? 22 : w >= 1024 ? 20 : w >= 768 ? 18 : 16;
       setGap(g);
 
-      // Alturas altas
       if (w >= 1536) setCardH(180);
       else if (w >= 1280) setCardH(168);
       else if (w >= 1024) setCardH(156);
       else if (w >= 768) setCardH(144);
       else setCardH(132);
 
-      // Ancho por columna con mínimo alto
       const gutters = (vCount - 1) * g;
       const available = w - gutters;
       const baseW = available / vCount;
@@ -189,14 +189,14 @@ export default function LogosCarousel({
                 fill
                 className="object-contain p-5 md:p-6"
                 sizes="(min-width:1536px) 14vw, (min-width:1280px) 16vw, (min-width:1024px) 18vw, (min-width:768px) 22vw, 34vw"
-                priority={i === 0}
+                priority={i < 4}
               />
             </div>
           ))}
         </div>
       </div>
 
-      {/* Flechas separadas */}
+      {/* Flechas */}
       {multi && (
         <>
           <button
