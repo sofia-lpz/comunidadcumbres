@@ -19,10 +19,10 @@ export default function NavBar(): JSX.Element {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollTop = window.scrollY || document.documentElement.scrollTop;
-      setIsScrolled(scrollTop > 50);
-    };
+    const handleScroll = () =>
+      setIsScrolled(
+        (window.scrollY || document.documentElement.scrollTop) > 50
+      );
     handleScroll();
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
@@ -32,7 +32,6 @@ export default function NavBar(): JSX.Element {
     { name: "Inicio", href: "/" },
     { name: "Acceso a clases", href: "/programa-educativo" },
     { name: "Acerca de nosotros", href: "/acerca-de-nosotros" },
-    { name: "Blog", href: "/blog" },
   ];
 
   const topMenuItems: TopMenuItem[] = [
@@ -45,78 +44,66 @@ export default function NavBar(): JSX.Element {
       className={`fixed top-0 left-0 right-0 z-50 bg-[#5D84C4] shadow-lg transition-all duration-300 ${
         isScrolled ? "h-20" : "h-28"
       }`}
+      aria-label="Barra de navegación principal"
     >
-      {/* Top bar */}
+      {/* ========= Top bar ========= */}
       <div
         className={`transition-all duration-300 overflow-hidden ${
           isScrolled ? "max-h-0 opacity-0" : "max-h-12 opacity-100"
-        }`}
+        } max-[380px]:hidden`} /* oculta en pantallas MUY angostas */
       >
         <div className="container mx-auto px-4">
-          {/* Top bar */}
-          <div
-            className={`transition-all duration-300 overflow-hidden ${
-              isScrolled ? "max-h-0 opacity-0" : "max-h-12 opacity-100"
-            }`}
-          >
-            <div className="container mx-auto px-4">
-              <div className="flex justify-between items-center py-2 text-sm h-12">
-                {/* 👉 Frase en la esquina superior izquierda */}
-                <span className="text-gray-100 hidden sm:inline">
-                  Vecinos unidos, comunidades más fuertes
-                </span>
-
-                {/* 👉 Íconos (Whatsapp y Mail) a la derecha */}
-                <div className="flex items-center space-x-6">
-                  {topMenuItems.map((item, index) => {
-                    const Icon = item.icon;
-                    return (
-                      <a
-                        key={index}
-                        href={item.href}
-                        className="flex items-center space-x-1 text-gray-100 hover:text-[#D9D3A7] transition-colors"
-                      >
-                        <Icon className="w-4 h-4" />
-                        <span className="hidden sm:inline">{item.name}</span>
-                      </a>
-                    );
-                  })}
-                </div>
-              </div>
+          <div className="flex justify-between items-center py-2 text-sm h-12">
+            <span className="text-gray-100 hidden sm:inline">
+              Vecinos unidos, comunidades más fuertes
+            </span>
+            <div className="flex items-center space-x-6">
+              {topMenuItems.map((item, index) => {
+                const Icon = item.icon;
+                return (
+                  <a
+                    key={index}
+                    href={item.href}
+                    className="flex items-center space-x-1 text-gray-100 hover:text-[#D9D3A7] transition-colors"
+                  >
+                    <Icon className="w-4 h-4" />
+                    <span className="hidden sm:inline">{item.name}</span>
+                  </a>
+                );
+              })}
             </div>
           </div>
         </div>
       </div>
 
-      {/* Main nav */}
+      {/* ========= Main nav ========= */}
       <div className="container mx-auto px-4">
         <div
-          className={`flex justify-between items-center ${
-            isScrolled ? "h-20" : "h-16"
-          }`}
+          className={`
+            flex justify-between items-center
+            ${isScrolled ? "h-20" : "h-16"}
+            max-[380px]:gap-1
+          `}
         >
-          {/* Logo */}
-          <Link href="/">
-            <div className="flex items-center">
-              <div
-                className={`transition-all duration-300 ${
-                  isScrolled ? "scale-90" : "scale-100"
-                }`}
-              >
-                {/* Usa el icono SIN texto para evitar duplicado */}
-                <LogoComponent
-                  variant="comunidad"
-                  size={56}
-                  showText
-                  className="gap-4"
-                  titleClassName="text-[clamp(20px,1.8vw,32px)] text-white font-bold"
-                  subtitleClassName="text-[clamp(14px,1.2vw,20px)] text-white"
-                />
-              </div>
+          {/* ---------- LOGO ---------- */}
+          <Link href="/" className="flex items-center min-w-0">
+            <div
+              className={`transition-all duration-300 ${
+                isScrolled ? "scale-90" : "scale-100"
+              } max-[380px]:scale-90`}
+            >
+              <LogoComponent
+                variant="comunidad"
+                size={56}
+                showText
+                className="gap-3 max-[380px]:gap-2"
+                titleClassName="text-[clamp(18px,5.3vw,32px)] text-white font-bold"
+                subtitleClassName="text-[clamp(12px,3.8vw,20px)] text-white"
+              />
             </div>
           </Link>
 
-          {/* Desktop menu */}
+          {/* ---------- MENÚ DESKTOP ---------- */}
           <div
             className={`hidden lg:flex items-center space-x-8 transition-all duration-300 ${
               isScrolled ? "opacity-100" : "opacity-90"
@@ -137,12 +124,23 @@ export default function NavBar(): JSX.Element {
             ))}
           </div>
 
-          {/* Mobile toggle + donate */}
-          <div className="flex items-center space-x-4">
+          {/* ---------- DONAR + MENÚ MÓVIL ---------- */}
+          <div className="flex items-center gap-2 sm:gap-3">
+            <Link
+              href="/donar"
+              className="
+                bg-[#D9D3A7] hover:bg-[#CDA52A] text-gray-800 rounded-md font-semibold transition-colors
+                px-6 py-2 text-sm
+                max-[380px]:px-2 max-[380px]:py-1.5 max-[380px]:text-xs
+              "
+            >
+              DONAR
+            </Link>
+
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="lg:hidden p-2 rounded-md hover:bg-white hover:bg-opacity-20 transition-colors"
-              aria-label="Toggle mobile menu"
+              className="lg:hidden p-2 rounded-md hover:bg-white/20 transition-colors"
+              aria-label={isMobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
             >
               {isMobileMenuOpen ? (
                 <X className="w-6 h-6 text-white" />
@@ -150,23 +148,17 @@ export default function NavBar(): JSX.Element {
                 <Menu className="w-6 h-6 text-white" />
               )}
             </button>
-            <a
-              href="/donar"
-              className="bg-[#D9D3A7] hover:bg-[#CDA52A] text-gray-800 px-6 py-2 rounded-md font-semibold transition-colors"
-            >
-              DONAR
-            </a>
           </div>
         </div>
       </div>
 
-      {/* Mobile menu */}
+      {/* ========= MENÚ MÓVIL ========= */}
       <div
         className={`lg:hidden transition-all duration-300 overflow-hidden bg-[#5D84C4] ${
           isMobileMenuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
         }`}
       >
-        <div className="container mx-auto px-4 py-4 border-t border-white border-opacity-20">
+        <div className="container mx-auto px-4 py-4 border-t border-white/20">
           <div className="flex flex-col space-y-4">
             {mainMenuItems.map((item, index) => (
               <Link
@@ -185,7 +177,7 @@ export default function NavBar(): JSX.Element {
                 </span>
               </Link>
             ))}
-            <hr className="my-2 border-white border-opacity-20" />
+            <hr className="my-2 border-white/20" />
             <div className="flex flex-col space-y-2">
               {topMenuItems.map((item, index) => {
                 const Icon = item.icon;

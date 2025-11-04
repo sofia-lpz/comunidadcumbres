@@ -58,7 +58,7 @@ export default function DonarPage() {
           al correo:
         </p>
         <p className="font-medium text-[#5D84C4]">
-          facturas@comunidadcumbres.org
+          contacto@comunidadcumbres.org
         </p>
         <p className="text-sm text-gray-600 mt-2">
           Te enviaremos tu factura electrónica lo antes posible. Gracias por tu
