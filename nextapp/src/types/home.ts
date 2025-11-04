@@ -1,3 +1,5 @@
+export type LogoItem = { src: string; alt: string };
+
 export type Slide = {
   title: string;
   description: string;

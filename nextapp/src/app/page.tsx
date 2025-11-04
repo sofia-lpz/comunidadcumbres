@@ -170,7 +170,7 @@ export default function Home() {
               Nuestros patrocinadores
             </h2>
             <LogosCarousel
-              items={logos}
+              items={[...logos]} 
               ariaLabel="Carrusel de logos de colaboradores"
               autoIntervalMs={3000}
             />

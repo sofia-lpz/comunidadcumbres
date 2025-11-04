@@ -77,7 +77,7 @@ export default function ProyectosPage() {
               rel="noopener noreferrer"
               className="inline-block w-full text-center bg-[#ef4444] hover:bg-[#dc2626] text-white font-semibold py-2 px-4 rounded-lg transition-all"
             >
-              Inscribirme
+              Inscribirse
             </a>
           </div>
         ))}
