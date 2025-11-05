@@ -82,7 +82,7 @@ export default function Footer() {
               <div className="flex items-center space-x-3">
                 <Mail className="w-4 h-4 text-[#5D84C4] flex-shrink-0" />
                 <span className="text-sm text-gray-700">
-                  info@patronatocumbres.org
+                  contacto@comunidadcumbres.org
                 </span>
               </div>
               <div className="flex items-center space-x-3">

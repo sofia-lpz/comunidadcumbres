@@ -23,10 +23,10 @@ export default function VoluntariadoPage() {
         <p>
           Si tienes dudas o deseas recibir más información, puedes escribirnos a{" "}
           <a
-            href="mailto:contacto@patronatocumbres.org"
+            href="mailto:contacto@comunidadcumbres.org"
             className="text-[#5D84C4] font-semibold hover:underline"
           >
-            contacto@patronatocumbres.org
+            contacto@comunidadcumbres.org
           </a>
         </p>
       </div>
