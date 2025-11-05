@@ -1,69 +1,24 @@
+"use client"; // Necesario para usar React.useState
+
+import React from "react"; // Necesario para el estado
+import dynamic from "next/dynamic"; // Para cargar el modal dinámicamente
 import AboutText from "@/components/about/AboutText";
 import AreasGrid from "@/components/about/AreasGrid";
 import Image from "next/image";
-import Link from "next/link";
 import Transparency from "@/components/about/Transparency";
+import { slides } from "@/data/home/slides";
 
-type Proyecto = {
-  id: number;
-  title: string;
-  description: string;
-  image: string;
-  href: string;
-};
-
-const proyectos: Proyecto[] = [
-  {
-    id: 1,
-    title: "Apoyo Educativo",
-    description:
-      "Sesiones de tutoría y entrega de útiles escolares para niños de la comunidad.",
-    image: "/images/acerca-de-nosotros/educativo.jpg",
-    href: "/acerca-de-nosotros/apoyo-educativo",
-  },
-  {
-    id: 2,
-    title: "Salud Comunitaria",
-    description:
-      "Jornadas médicas y entrega de insumos básicos para mejorar la salud familiar.",
-    image: "/images/acerca-de-nosotros/salud.jpg",
-    href: "/acerca-de-nosotros/salud",
-  },
-  {
-    id: 3,
-    title: "Reforestación",
-    description:
-      "Plantación de árboles y mantenimiento de áreas verdes para un entorno más limpio.",
-    image: "/images/acerca-de-nosotros/reforestacion.jpg",
-    href: "/acerca-de-nosotros/reforestacion",
-  },
-  {
-    id: 4,
-    title: "Voluntariado",
-    description:
-      "Espacios donde vecinos y colaboradores participan activamente en labores sociales.",
-    image: "/images/acerca-de-nosotros/voluntariado.jpg",
-    href: "/acerca-de-nosotros/voluntariado",
-  },
-  {
-    id: 5,
-    title: "Mejora de Infraestructura",
-    description:
-      "Rehabilitación de espacios comunitarios y reparaciones de mobiliario público.",
-    image: "/images/acerca-de-nosotros/infraestructura.jpg",
-    href: "/acerca-de-nosotros/infraestructura",
-  },
-  {
-    id: 6,
-    title: "Programas Culturales",
-    description:
-      "Talleres de arte, música y deporte para fomentar el desarrollo integral.",
-    image: "/images/acerca-de-nosotros/cultural.jpg",
-    href: "/acerca-de-nosotros/culturales",
-  },
-];
+// Importamos dinámicamente el modal, igual que en la página de inicio
+const ProgramModal = dynamic(() => import("@/components/home/ProgramModal"), {
+  ssr: false,
+});
 
 export default function AboutPage() {
+  // Estado para saber qué programa/modal está abierto
+  const [openProgramIdx, setOpenProgramIdx] = React.useState<number | null>(
+    null
+  );
+
   return (
     <main className="flex flex-col">
       {/* SOBRE EL PATRONATO */}
@@ -85,27 +40,30 @@ export default function AboutPage() {
         </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {proyectos.map((proy) => (
+          {/* Añadimos 'idx' al map para saber qué programa abrir */}
+          {slides.map((slide, idx) => (
             <article
-              key={proy.id}
-              className="flex flex-col bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition p-6"
+              key={slide.title}
+              className="flex flex-col bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition p-6 h-full"
             >
               <div className="relative w-full h-48 mb-4">
                 <Image
-                  src={proy.image}
-                  alt={proy.title}
+                  src={slide.image}
+                  alt={slide.title}
                   fill
                   className="object-cover rounded-lg"
                 />
               </div>
-              <h3 className="text-xl font-semibold mb-2">{proy.title}</h3>
-              <p className="text-gray-600 flex-grow">{proy.description}</p>
-              <Link
-                href={proy.href}
-                className="mt-4 inline-block text-[#5D84C4] font-medium hover:underline"
+              <h3 className="text-xl font-semibold mb-2">{slide.title}</h3>
+              <p className="text-gray-600 flex-grow">{slide.description}</p>
+
+              {/* Cambiamos el Link por un button con onClick */}
+              <button
+                onClick={() => setOpenProgramIdx(idx)}
+                className="mt-4 inline-block text-[#5D84C4] font-medium hover:underline text-left"
               >
                 Más información
-              </Link>
+              </button>
             </article>
           ))}
         </div>
@@ -115,6 +73,14 @@ export default function AboutPage() {
       <section className="bg-gray-50">
         <Transparency />
       </section>
+
+      {/* Renderizamos el Modal */}
+      {/* Pasamos la información del slide seleccionado y la función para cerrarlo */}
+      <ProgramModal
+        isOpen={openProgramIdx !== null}
+        slide={openProgramIdx !== null ? slides[openProgramIdx] : null}
+        onClose={() => setOpenProgramIdx(null)}
+      />
     </main>
   );
 }

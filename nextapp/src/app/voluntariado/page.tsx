@@ -7,15 +7,22 @@ export default function VoluntariadoPage() {
 
       <p className="text-center text-gray-600 mb-10">
         Gracias por tu interés en formar parte del voluntariado del Patronato de
-        Ayuda Cumbres de Santa Fe, A.C. Próximamente podrás completar tu
-        registro directamente desde esta página.
+        Ayuda Cumbres de Santa Fe, A.C. Completa el siguiente formulario para
+        registrar tu participación.
       </p>
 
-      {/* ====== Espacio reservado para el Google Form ====== */}
-      <div className="aspect-video w-full bg-gray-100 border border-dashed border-gray-300 rounded-xl flex items-center justify-center text-gray-400">
-        <span className="text-center px-4">
-          Aquí se insertará el formulario de Google Forms
-        </span>
+      {/* ====== Google Form Embed ====== */}
+      <div className="aspect-video w-full rounded-xl overflow-hidden">
+        <iframe
+          src="https://docs.google.com/forms/d/e/1FAIpQLScNezz37ExTfDAXg7V2Nm4gM5psWkAMfhmoEXpPT33QVLGSwQ/viewform?usp=publish-editor"
+          width="100%"
+          height="100%"
+          className="border-0"
+          allowFullScreen
+          loading="lazy"
+        >
+          Cargando…
+        </iframe>
       </div>
 
       {/* ====== Información de contacto opcional ====== */}

@@ -38,6 +38,7 @@ export default function Hero({ title, subtitle, ctaButtons = [] }: HeroProps) {
   ];
 
   const overridesInitial: Record<number, ImgOverride> = {
+    2: { position: { default: "50% 30%", md: "50% 28%", lg: "50% 33%" } }, 
     3: { position: { default: "50% 70%", md: "50% 72%", lg: "50% 38%" } },
     4: { position: { default: "50% 30%", md: "50% 28%", lg: "50% 54%" } },
     8: { position: { default: "50% 60%", md: "50% 62%", lg: "50% 26%" } },

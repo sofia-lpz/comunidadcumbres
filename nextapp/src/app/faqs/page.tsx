@@ -46,12 +46,12 @@ const faqs: Faq[] = [
     question: "¿Puedo participar como voluntario?",
     answer: (
       <p>
-        ¡Por supuesto! Contáctanos por correo o en la sección{" "}
+        ¡Por supuesto! Puedes registrarte en nuestra sección de{" "}
         <a
-          href="/contacto"
+          href="/voluntariado" 
           className="text-blue-600 underline hover:text-blue-800"
         >
-          contacto
+          voluntariado
         </a>{" "}
         para conocer las formas en que puedes ayudar.
       </p>

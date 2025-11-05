@@ -54,7 +54,6 @@ export const slides: Slide[] = [
       "/images/carrusel-programas/salud/foto2.jpg",
       "/images/carrusel-programas/salud/foto3.jpg",
       "/images/carrusel-programas/salud/foto4.jpg",
-      "/images/carrusel-programas/salud/foto5.jpg",
 
     ],
   },
@@ -71,7 +70,6 @@ export const slides: Slide[] = [
       "/images/carrusel-programas/san-mateo/foto3.jpg",
       "/images/carrusel-programas/san-mateo/foto4.jpg",
       "/images/carrusel-programas/san-mateo/foto5.jpg",
-      "/images/carrusel-programas/san-mateo/foto6.jpg",
     ],
   },
   {
@@ -87,8 +85,6 @@ export const slides: Slide[] = [
       "/images/carrusel-programas/reforestacion/foto3.jpg",
       "/images/carrusel-programas/reforestacion/foto4.jpg",
       "/images/carrusel-programas/reforestacion/foto5.jpeg",
-      "/images/carrusel-programas/reforestacion/foto6.jpeg",
-      "/images/carrusel-programas/reforestacion/foto7.jpeg",
     ],
   },
 ];
