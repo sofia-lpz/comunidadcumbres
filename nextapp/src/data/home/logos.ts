@@ -12,5 +12,5 @@ export const logos: ReadonlyArray<LogoItem> = [
   { src: "/images/logos/colaborador9.png", alt: "Colaborador 9" },
   { src: "/images/logos/colaborador10.png", alt: "Colaborador 10" },
   { src: "/images/logos/colaborador11.png", alt: "Colaborador 11" },
-  // ...hasta 15 si quieres
+  { src: "/images/logos/colaborador12.png", alt: "Colaborador 12" },
 ] as const;
