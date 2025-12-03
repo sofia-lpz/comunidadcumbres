@@ -1,4 +1,18 @@
+"use client";
+
+import { useEffect } from "react";
+import { trackDonationPageView, trackButtonClick } from "@/lib/mixpanel";
+
 export default function DonarPage() {
+  useEffect(() => {
+    // Trackear cuando el usuario ve la página de donación
+    trackDonationPageView();
+  }, []);
+
+  const handleDonateClick = (method: string) => {
+    trackButtonClick("Donar", "donar-page", { donation_method: method });
+  };
+
   return (
     <main className="px-6 py-12 max-w-3xl mx-auto">
       <h1 className="text-3xl font-bold mb-6 text-center">
@@ -22,6 +36,7 @@ export default function DonarPage() {
           href="https://www.moneypool.mx/p/Z0Rp5HA"
           target="_blank"
           rel="noopener noreferrer"
+          onClick={() => handleDonateClick("moneypool")}
           className="inline-block bg-yellow-500 text-white px-8 py-3 rounded-md text-lg font-semibold hover:bg-yellow-600 transition"
         >
           Donar ahora con Moneypool
