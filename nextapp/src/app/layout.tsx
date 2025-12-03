@@ -5,6 +5,7 @@ import "./globals.css";
 import NavBar from "@/components/layout/NavBar";
 import Footer from "@/components/layout/Footer";
 import MixpanelProvider from "@/components/providers/MixpanelProvider";
+import PageViewTracker from "@/components/providers/PageViewTracker";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,6 +39,7 @@ export default function RootLayout({
   className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white text-gray-900`}
 >
   <MixpanelProvider>
+    <PageViewTracker />
     <NavBar />
     <div className="pt-28 md:pt-28">
       {children}
